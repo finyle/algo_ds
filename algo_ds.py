@@ -1,10 +1,13 @@
 import random
 from typing import List
+import collections
 
 
 class UF:
     def __init__(self, n:int):
         self.cnt = n
+
+
         self.fa = [x for x in range(n)]
     def find(self, x:int) -> int:
         if self.fa[x] != x:
@@ -172,8 +175,32 @@ class SkipList:
     def floor(self, x):
         pass
 
-class BinaryTree:
-    pass
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Codec:
+    def serialize(self, root):
+        if not root:
+            return 'None,'
+        return str(root.val) + ',' + self.serialize(root.left) + self.serialize(root.right)
+
+    def deserialize(self, data):
+        def buildTree(vals):
+            try: val = next(vals)
+            except: return
+            if val == 'null':
+                return
+            node = TreeNode(int(val))
+            node.left = buildTree(vals)
+            node.right = buildTree(vals)
+            return node
+        vals = iter(data.split(','))
+        return buildTree(vals)
+
 class BalanceTree:
     pass
 
@@ -332,6 +359,10 @@ if __name__ == '__main__':
 
     segmentTree = MultiOverwriteSegmentTree([1,2,3,4,5]);
     print(segmentTree.getRange(0,0))
+
+    ser = Codec(); deser = Codec()
+    print(deser.deserialize("1,2,3,null,null,4,5").val)
+    # print(deser.deserialize(ser.serialize()).deserialize( "1,2,3,null,null,4,5"))
 
 
 
