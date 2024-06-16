@@ -110,6 +110,8 @@ class LinkedList:
 #  consistent hash
 class RingList:
     pass
+
+# skipList
 MAX_LEVEL = 32
 P_FACTOR = 0.25
 class SkipListNode:
@@ -174,17 +176,163 @@ class BinaryTree:
     pass
 class BalanceTree:
     pass
+
+# segmentTree
+class Node:
+    def __init__(self, startIndex, endIndex, val):
+        self.start = startIndex
+        self.end = endIndex
+        self.val = val
+        # lazy
+        self.lazyVal = None
+        self.left = None
+        self.right = None
 class SegmentTree:
-    pass
+    def __init__(self, data):
+        self.data = data
+        self.root = self._buildTree(0, len(self.data) - 1)
+    def _buildTree(self, start, end):
+        if start == end:
+            return Node(start, end, self.data[start])
+        root = Node(start, end, 0)
+        mid = (start + end) >> 1
+        root.left = self._buildTree(start, end)
+        root.right = self._buildTree(mid + 1, end)
+        root.val = max(root.left.val, root.right.val)
+        return root
+    def updateRange(self, i, j, val):
+        self._updateRange(self.root, i, j, val)
+    def _updateRange(self, root, i, j, val):
+        start, end = root.start, root.end
+        if i == start and j == end:
+            root.val = val
+            root.lazyVal = val
+            return
+        if root.lazyVal is not None:
+            self._pushDown(root)
+        mid = (start + end) // 2
+        if j <= mid:
+            self._updateRange(root.left, i, j, val)
+        elif i >= mid + 1:
+            self._updateRange(root.right, i, j, val)
+        else:
+            self._updateRange(root.left, i, mid, val)
+            self._updateRange(root.right, mid + 1, val)
+    def getRange(self, i, j):
+        return self._getRange(self.root, i, j)
+    def _getRange(self, root, i, j):
+        start, end = root.start, root.end
+        if i == start and j == end:
+            return root.val
+        if root.lazyVal is not None:
+            self._pushDown(root)
+        mid = (start + end) // 2
+        if j <= mid:
+            return self._getRange(root.left, i, j)
+        if i >= mid + 1:
+            return self._getRange(root.right, i, j)
+        return max(self._getRange(root.left, i, mid), self._getRange(root.right, mid + 1, j))
+    def _pushDown(self, root):
+        if root.left:
+            root.left.val = root.lazyVal
+            root.left.lazyVal = root.lazyVal
+        if root.right:
+            root.right.val = root.lazyVal
+            root.right.lazyVal = root.lazyVal
+        root.lazyVal = None
+
+
+class Node:
+    def __init__(self, startIndex, endIndex, val):
+        self.start = startIndex
+        self.end = endIndex
+        self.val = val
+        # lazy更新法
+        self.lazyVal = None
+        self.left = None
+        self.right = None
+
+class MultiOverwriteSegmentTree:
+    def __init__(self, data):
+        self.data = data
+        self.root = self._buildTree(0, len(self.data) - 1)
+
+    def _buildTree(self, start, end):
+        if start == end:
+            return Node(start, end, self.data[start])
+
+        root = Node(start, end, 0)
+        mid = (start + end) // 2
+        root.left = self._buildTree(start, mid)
+        root.right = self._buildTree(mid + 1, end)
+        root.val = max(root.left.val, root.right.val)
+        return root
+
+    def updateRange(self, i, j, val):
+        self._updateRange(self.root, i, j, val)
+
+    def _updateRange(self, root, i, j, val):
+        start, end = root.start, root.end
+        if i == start and j == end:
+            root.val = val
+            root.lazyVal = val
+            return
+
+        # 当node的lazyVal不为空的时候，需要将缓存的lazy值下推给子node
+        if root.lazyVal is not None:
+            self._pushDown(root)
+
+        mid = (start + end) // 2
+        if j <= mid:
+            self._updateRange(root.left, i, j, val)
+        elif i >= mid + 1:
+            self._updateRange(root.right, i, j, val)
+        else:
+            self._updateRange(root.left, i, mid, val)
+            self._updateRange(root.right, mid + 1, j, val)
+
+    def getRange(self, i, j):
+        return self._getRange(self.root, i, j)
+
+    def _getRange(self, root, i, j):
+        start, end = root.start, root.end
+        if i == start and j == end:
+            return root.val
+
+        # 当node的lazyVal不为空的时候，需要将缓存的lazy值下推给子node
+        if root.lazyVal is not None:
+            self._pushDown(root)
+
+        mid = (start + end) // 2
+        if j <= mid:
+            return self._getRange(root.left, i, j)
+        if i >= mid + 1:
+            return self._getRange(root.right, i, j)
+        return max(self._getRange(root.left, i, mid), self._getRange(root.right, mid + 1, j))
+
+    def _pushDown(self, root):
+        if root.left:
+            root.left.val = root.lazyVal
+            root.left.lazyVal = root.lazyVal
+        if root.right:
+            root.right.val = root.lazyVal
+            root.right.lazyVal = root.lazyVal
+        root.lazyVal = None
 
 if __name__ == '__main__':
     uf = UF(10)
     trie = Trie(); trie.insert("apple");
     print(trie.searchsWith("app"))
+
     treeList = TreeList([1,3,5]);
     print(treeList.sumRange(0, 2))
+
     skipList = SkipList(); skipList.put(1);
     print(skipList.get(1))
+
+    segmentTree = MultiOverwriteSegmentTree([1,2,3,4,5]);
+    print(segmentTree.getRange(0,0))
+
 
 
 
