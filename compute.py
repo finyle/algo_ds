@@ -1,3 +1,9 @@
+# 数组的载入，导出 numpy pandas (多为数组， Cython 加速)
+# 科学计算 statisitic, scikit-learn, scipy 
+# ml: lightGBM, pytorch 基于cpp的dll库调用
+# pytroch 生态： dn模型的分布式部署，模型搭建, 模型的onnx， pretrained， 并行优化加速
+# 矩阵相关计算(样例， 与性能无关)
+
 # 1. 基于 pandas 的文件读取
 # 调用 np.hstack()toifle();
 # 参考： qlib.data.storage.file_storage.FileFeatureStorage.write()

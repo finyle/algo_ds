@@ -1,3 +1,12 @@
+# python 原生 socket 实现 简单的tcp c-s 结构
+# python 内置 http， 实现简单的http c-s 结构: 命令行工具： python -m http.server 
+# python 内置 request, 实现简单的 http client
+# python 三方库 websocket 实现 websocket 协议，需要加载源码自定打包安装
+
+# 基于协程池 和 ws 的爬虫
+ 
+
+
 # 基于requests 库的http post 请求构造
 import base64
 import datetime

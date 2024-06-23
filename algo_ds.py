@@ -1,3 +1,7 @@
+# Trie, Heap, Skiplist, BS, UF 
+# LRU LFU(ListNode) B+Tree 
+# Segment Tree 
+
 import random
 from typing import List
 import collections
