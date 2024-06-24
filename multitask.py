@@ -31,6 +31,22 @@ def printSecond():
     print("2")
 def printThird():
     print(3)
+class Foo_condition:
+    def __init__(self):
+        self.c = Condition()
+        self.t = 0
+    def first(self, printF: 'Callable[[], None]') -> None:
+        self.res(0, printF)
+    def second(self, printS: 'Callable[[], None]') -> None:
+        self.res(1, printS)
+    def third(self, printT: 'Callable[[], None]') -> None:
+        self.res(2, printT)
+    def res(self, val:int, func: 'Callable[[], None]') -> None:
+        with self.c:
+            self.c.wait_for(lambda :val == self.t)
+            func()
+            self.t += 1
+            self.c.notify_all()
 
 # python 协程 async & await
 class Foo_async:
@@ -50,18 +66,55 @@ class Foo_async:
             self.t += 1
             self.c.notify_all()
 
-def printF():
-    print(1)
-def printS():
-    print(2)
-def printT():
-    print(3)
+async def printF():
+    await print(1)
+async def printS():
+    await print(2)
+async def printT():
+    await print(3)
+
+# 交替打印
+# 打印0，奇偶数
+# h20生成
+# 优先阻塞队列
+# 交替打印字符串
+# 哲学家进餐
+# 多线程网络爬虫
+# 红绿灯模拟
+
+# Java 并发编程实战样例: 分工 互斥 同步
+# juc: 并发工具： Lock_Condition, Atomic
+#      并行框架： Future, CompletableFuture, CompletionService, ForkJoinPool
+# thrid-party: Guava, Dubbo(Netty), Disruptor, Hikaricp
+
+
+# Go 并发编程实战样例
+# sync: 并发工具： Lock, Cond, Map;
+# go + chan: csp并发模型
+# third-party: etcd, grpc-go
+
+
+# cs149 并行计算样例
+# 分形计算
+# custom executorPool
+# cuda render
+# bfs(图算法处理)
+
+# 并发安全的容器
+# trie, skiplist, b+tree, map, queue
+
+# 并发io模型
+# asyncio, netty, aio
+
+
+# 内置 future 异步编程模型
+
 
 if __name__ == '__main__':
-    # f = Foo()
-    # Thread(target = f.first, args = [printFirst]).start()
-    # Thread(target = f.third, args = [printThird]).start()
-    # Thread(target = f.second, args = [printSecond]).start()
+    f = Foo()
+    Thread(target = f.first, args = [printFirst]).start()
+    Thread(target = f.third, args = [printThird]).start()
+    Thread(target = f.second, args = [printSecond]).start()
 
     # Process(target = f.first, args = [printFirst]).start()
     # Process(target = f.third, args = [printThird]).start()
@@ -77,38 +130,13 @@ if __name__ == '__main__':
     #     e.map(f.third, [printThird])
     #     e.map(f.second, [printSecond])
 
-    f_a = Foo_async()
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(f_a.first(printFirst))
-    loop.run_until_complete(f_a.third(printThird))
-    loop.run_until_complete(f_a.second(printSecond))
-    loop.close()
+    # 协程
+    # f_a = Foo_async()
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(f_a.first(printFirst))
+    # loop.run_until_complete(f_a.second(printSecond))
+    # loop.run_until_complete(f_a.third(printThird))
+    # loop.close()
     # t1.start()
     # t3.start()
     # t2.start()
-
-# 交替打印
-# 打印0，奇偶数
-# h20生成
-# 优先阻塞队列
-# 交替打印字符串
-# 哲学家进餐
-# 多线程网络爬虫
-# 红绿灯模拟
-
-# Java 并发编程实战样例
-
-# Go 并发编程实战样例
-
-# cs149 并行计算样例
-
-# 并发安全的容器
-
-# 并发io模型
-
-# 池化相关
-
-
-
-
-# 内置 future 异步编程模型
