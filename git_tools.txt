@@ -1,0 +1,36 @@
+# 问题：git push和pull报错Failed to connect to github.com port 443: Timed out的最佳
+# 可能是DNS解析的问题，于是尝试修改host文件，绑定github域名和它的IP地址，从而优先去host文件找域名和ip的映射关系，找到了就直接按这个ip去访问，没找到才会走DNS解析。具体做法如下：
+在如下目录里找到host文件 C:\Windows\System32\drivers\etc\hosts : ping github.com & github.com
+
+# github 
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/finyle/Cpp_prime.git
+git push -u origin main
+
+# 
+# git pull 
+# git branch -b 
+# git remote add & remove 
+
+# 
+git add & git reset 
+
+
+# 字体配置测试
+# English
+
+
+
+
+ssh -T git@github.com
+如果看到类似于“Hi username! You've successfully authenticated, but GitHub does not provide shell access.”的消息，说明SSH连接成功。
+
+克隆GitHub仓库或者通过SSH进行推送：
+
+git clone git@github.com:username/repository.git
+# 或者
+git remote set-url origin git@github.com:username/repository.git
+git push
