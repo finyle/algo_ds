@@ -24,7 +24,6 @@ git add & git reset
 
 
 
-
 ssh -T git@github.com
 如果看到类似于“Hi username! You've successfully authenticated, but GitHub does not provide shell access.”的消息，说明SSH连接成功。
 
