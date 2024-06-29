@@ -3,6 +3,8 @@ from collections import defaultdict, deque, Counter
 import heapq
 from bisect import bisect_left
 import random
+from functools import cache, reduce
+from math import inf, comb
 
 class Solution:
     def twoSum_1(self, nums:List[int], target:int) -> List[int]:
@@ -855,8 +857,325 @@ class Solution:
         return ans 
     
     # dp
+    def climbStairs(self, n:int) -> int:
+        @cache 
+        def dfs(i:int) -> int:
+            if i <= 1: return 1 
+            return dfs(i - 1) + dfs(i - 2)
+        return dfs(n)
+    def climbStairs_(self, n:int) -> int:
+        f0 = f1 = 1 
+        for _ in range(2, n + 1):
+            f0, f1 = f1, f1 + f0 
+        return f1 
     
+    def generate_118(self, numRows) -> List[List[int]]:
+        c = [[1] * (i + 1) for i in range(numRows)]
+        for i in range(2, numRows):
+            for j in range(1, i):
+                c[i][j] = c[i - 1][j - 1] + c[i - 1][j]
+        return c 
 
+    def rob(self, nums:List[List[int]]) -> int:
+        @cache
+        def dfs(i:int) -> int:
+            if i < 0: return 0 
+            return max(dfs(i - 1), dfs(i - 2) + nums[i])
+        return dfs(len(nums) - 1)
+    def rob_(self, nums:List[int]) -> int:
+        f0 = f1 = 0 
+        for x in nums:
+            f0, f1 = f1, max(f1, f0 + x)
+        return f1 
+    
+    def numsSquares(self, n:int) -> int: 
+        def gen_coins(n):
+            coins = []
+            for i in range(1, 101):
+                if i * i <= n: coins.append(i * i)
+                else: break 
+            return coins 
+        amount = n 
+        coins = gen_coins(n)
+        n = len(coins)
+        f = [[inf] * (amount + 1) for _ in range(n + 1)]
+        f[0][0] = 0 
+        for i, x in enumerate(coins):
+            for c in range(amount + 1):
+                if c < x:
+                    f[i + 1][c] = f[i][c]
+                else:
+                    f[i + 1][c] = min(f[i][c], f[i + 1][c - x] + 1)
+        ans = f[n][amount]
+        return ans if ans < inf else -1 
+
+    def coinChange(self, coins:List[int], amount:int) -> int:
+        @cache
+        def dfs(i:int, c:int) -> int:
+            if i < 0: return 0 if c == 0 else inf 
+            if c < coins[i]: return dfs(i - 1, c)
+            return min(dfs(i - 1, c), dfs(i, c - coins[i]) + 1)
+        ans = dfs(len(coins) - 1, amount) 
+        return ans if ans < inf else -1 
+    def coinChange_(self, coins:List[int], amount:int) -> int:
+        f = [0] + [inf] * amount 
+        for x in coins:
+            for c in range(x, amount + 1):
+                f[c] = min(f[c], f[c - x] + 1)
+        ans = f[amount]
+        return ans if ans < inf else -1 
+    
+    def wordBreak(self, s:str, wordDict:List[str]) -> bool:
+        @cache
+        def dfs(s):
+            if not s: return True 
+            res = False 
+            for i in range(1, len(s) + 1):
+                if s[:i] in wordDict:
+                    res = dfs(s[i:]) or res 
+            return res 
+        return dfs(s)
+
+    def wordBreak_(self, s:str, wordDict:List[str]) -> bool:
+        n = len(s)
+        dp = [False] * (n + 1)
+        dp[0] = True 
+        for i in range(n):
+            for j in range(i + 1, n + 1):
+                if dp[i] and s[i:j] in wordDict:
+                    dp[j] = True 
+        return dp[-1]
+    
+    def lengthOfLIS(self, nums:List[int]) -> int:
+        @cache
+        def dfs(i:int) -> int:
+            res = 0 
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    res = max(res, dfs(j))
+            return res + 1
+        return max(dfs(i) for i in range(len(nums)))
+    
+    def lengthOfLIS_(self, nums:List[int]) -> int:
+        f = [0] * len(nums)
+        for i, x in enumerate(nums):
+            for j, y in enumerate(nums[:i]):
+                if x > y:
+                    f[i] = max(f[i], f[j])
+            f[i] += 1 
+        return max(f)
+    def lengthOfLIS__(self, nums:List[int]) -> int:
+        ng = 0 
+        for x in nums:
+            j = bisect_left(nums, x, 0, ng)
+            nums[j] = x 
+            if j == ng: ng += 1 
+        return ng 
+    
+    def maxProduct(self, nums:List[int]) -> int:
+        maxF = nums[0]
+        minF = nums[0]
+        ans = nums[0]
+        for i in range(1, len(nums)):
+            mx = maxF
+            mn = minF 
+            maxF = max(mx * nums[i], max(nums[i], mn * nums[i]))
+            minF = max(mn * nums[i], min(nums[i], mx * nums[i]))
+            ans = max(maxF, ans)
+        return ans 
+    
+    def canPartition(self, nums:List[int]) -> bool:
+        @cache 
+        def dfs(i:int, j:int) -> bool:
+            if i < 0: return j == 0 
+            return j >= nums[i] and dfs(i - 1, j - nums[i]) or dfs(i - 1, j)
+        s = sum(nums)
+        return s % 2 == 0 and dfs(len(nums) - 1, s // 2)
+    
+    def canPartition_(self, nums:List[int]) -> bool:
+        s = sum(nums)
+        if s % 2: return False 
+        s //= 2 
+        f = [True] + [False] * s 
+        s2 = 0 
+        for i, x in enumerate(nums):
+            s2 = min(s2 + x, s)
+            for j in range(s2, x - 1, -1):
+                f[j] = f[j] or f[j - x]
+        return f[j]
+    
+    def longestValidParentheses(self, s:str) -> int:
+        ans = 0
+        n = len(s)
+        dp = [0] * n 
+        for i in range(n):
+            if s[i] == ')':
+                if s[i - 1] == '(':
+                    dp[i] = dp[i - 2] if i >= 2 else 0 + 2 
+                elif i - dp[i - 1] > 0 and s[i - dp[i - 1] - 1] == '(':
+                    dp[i] = dp[i - 1] + dp[i - dp[i - 1] - 2] if ((i - dp[i - 1]) >= 2 ) else 0 + 2
+            ans = max(ans, dp[i])
+        return ans 
+    
+    def longestValidParentheses_(self, s:str) -> int:
+        a=[-1]
+        ans=0
+        for i in range(len(s)):
+            if s[i]=='(':
+                a.append(i)
+            else:
+                a.pop()
+                if not a:
+                    a.append(i)
+                else:
+                    ans=max(ans,i-a[-1])
+        return ans
+
+    # multi dp 
+    def uniquePaths(self, m:int, n:int) -> int:
+        dp = [1] * n 
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[j] += d[j - 1]
+        return dp[n - 1]
+    
+    def uniquePaths(self, m:int, n:int) -> int:
+        return comb(m + n - 2, n - 1)
+    
+    def minPathSum(self, grid:List[List[int]]) -> int:
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if i == j == 0: continue
+                elif i == 0:  grid[i][j] = grid[i][j - 1] + grid[i][j]
+                elif j == 0:  grid[i][j] = grid[i - 1][j] + grid[i][j]
+                else: grid[i][j] = min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j]
+        return grid[-1][-1]
+
+    def longestPalindrome(self, s:str) -> str:
+        n = len(s)
+        if n < 2:
+            return s
+        max_len = 1
+        begin = 0
+        # dp[i][j] 表示 s[i..j] 是否是回文串
+        dp = [[False] * n for _ in range(n)]
+        for i in range(n):
+            dp[i][i] = True
+        # 递推开始
+        # 先枚举子串长度
+        for L in range(2, n + 1):
+            # 枚举左边界，左边界的上限设置可以宽松一些
+            for i in range(n):
+                # 由 L 和 i 可以确定右边界，即 j - i + 1 = L 得
+                j = L + i - 1
+                # 如果右边界越界，就可以退出当前循环
+                if j >= n:
+                    break                   
+                if s[i] != s[j]:
+                    dp[i][j] = False 
+                else:
+                    if j - i < 3:
+                        dp[i][j] = True
+                    else:
+                        dp[i][j] = dp[i + 1][j - 1]
+                # 只要 dp[i][L] == true 成立，就表示子串 s[i..L] 是回文，此时记录回文长度和起始位置
+                if dp[i][j] and j - i + 1 > max_len:
+                    max_len = j - i + 1
+                    begin = i
+        return s[begin:begin + max_len]
+
+    def longestCommonSubsequence(self, s:str, t:str) -> int:
+        m, n = len(s), len(t)
+        @cache
+        def dfs(i, j):
+            if i < 0 or j < 0: return 0 
+            if s[i] == t[j]: return dfs(i - 1, j - 1) + 1
+            return max(dfs(i - 1, j), dfs(i, j - 1))
+        return dfs(m - 1, n - 1)
+    
+    def longestCommonSubsequence_(self, s: str, t: str) -> int:
+        f = [0] * (len(t) + 1)
+        for x in s:
+            pre = 0  # f[0]
+            for j, y in enumerate(t):
+                tmp = f[j + 1]
+                f[j + 1] = pre + 1 if x == y else max(f[j + 1], f[j])
+                pre = tmp
+        return f[-1]
+    
+    def minDistance(self, word1:str, word2:str) -> int:
+        m, n = len(word1), len(word2)
+        @cache
+        def dfs(i, j):
+            if i < 0: return j + 1 
+            if j < 0: return i + 1 
+            if word1[i] == word2[j]: return dfs(i - 1, j - 1)
+            return min(dfs(i - 1, j), dfs(i, j - 1), dfs(i - 1, j - 1)) + 1
+        return dfs(m - 1, n - 1)
+
+    def minDistance_(self, word1:str, word2:str) -> int:
+        f = list(range(len(t) + 1))
+        for x in s:
+            pre = f[0]
+            f[0] += 1
+            for j, y in enumerate(t):
+                tmp = f[j + 1]
+                f[j + 1] = pre if x == y else min(f[j + 1], f[j], pre) + 1
+                pre = tmp
+        return f[-1]
+
+    # bit 
+    def singleNumber(self, nums:List[int]) -> int:
+        return reduce(lambda x, y: x ^ y, nums)
+    
+    def majorityElement(self, nums:List[int]) -> int:
+        cnt = Counter(nums)
+        return max(cnt.keys(), key = cnt.get)
+    
+    def sortColors(self, nums:List[int]) -> None:
+        n = len(nums)
+        p0, p2 = 0, n - 1
+        i = 0
+        while i <= p2:
+            while i <= p2 and nums[i] == 2:
+                nums[i], nums[p2] = nums[p2], nums[i]
+                p2 -= 1
+            if nums[i] == 0:
+                nums[i], nums[p0] = nums[p0], nums[i]
+                p0 += 1
+            i += 1
+        return nums 
+    def nextPermutations(self, nums:List[int]) -> List[int]:
+        i = len(nums) - 2
+        while i >= 0 and nums[i] >= nums[i + 1]:
+            i -= 1
+        if i >= 0:
+            j = len(nums) - 1
+            while j >= 0 and nums[i] >= nums[j]:
+                j -= 1
+            nums[i], nums[j] = nums[j], nums[i]
+        
+        left, right = i + 1, len(nums) - 1
+        while left < right:
+            nums[left], nums[right] = nums[right], nums[left]
+            left += 1
+            right -= 1
+        return nums 
+    def findDuplicate(self, nums:List[int]) -> int:
+        n = len(nums)
+        l, r = 1, n - 1
+        ans = -1 
+        while l <= r:
+            mid = (l + r) >> 1
+            cnt = sum(1 for num in nums if num <= mid)
+            if cnt <= mid:
+                l = mid + 1 
+            else:
+                r = mid - 1 
+                ans = mid 
+        return ans 
+
+    
 if __name__ == "__main__":
     s = Solution()
     nums = [1,3,4,5]; target = 4
@@ -970,3 +1289,60 @@ if __name__ == "__main__":
 
     s_763 = "ababcbacadefegdehijhklij"
     print(s.partitionLabels(s_763))
+
+    n_70 = 45
+    print(s.climbStairs(n_70))
+
+    numRows_118 = 5
+    print(s.generate_118(numRows_118))
+
+    nums_198 = [2,7,9,3,1]
+    print(s.rob(nums_198))
+
+    n_279 = 13
+    print(s.numsSquares(n_279))
+
+    coins_322 = [1, 2, 5]; amount_322 = 11
+    print(s.coinChange(coins_322, amount_322))
+
+    s_139 = "leetcode"; wordDict_139 = ["leet", "code"]
+    print(s.wordBreak(s_139, wordDict_139))
+
+    nums_300 = [10,9,2,5,3,7,101,18]
+    print(s.lengthOfLIS(nums_300))
+
+    nums_152 = [2,3,-2,4]
+    print(s.maxProduct(nums_152))
+
+    nums_416 = [1,5,11,5]
+    print(s.canPartition(nums_416))
+
+    s_32 = ")()())"
+    print(s.longestValidParentheses_(s_32))
+
+    m_62 = 3; n_62 = 7
+    print(s.uniquePaths(m_62, n_62))
+
+    grid_64 = [[1,3,1],[1,5,1],[4,2,1]]
+    print(s.minPathSum(grid_64))
+
+    s_5 =  "babad"
+    print(s.longestPalindrome(s_5))
+
+    text1_1143 = "abcde"; text2_1143 = "ace" 
+    print(s.longestCommonSubsequence(text1_1143, text2_1143))
+
+    word1_72 = "horse"; word2_72 = "ros"
+    print(s.minDistance(word1_72, word2_72))
+
+
+    nums_136 = [4,1,2,1,2]
+    print(s.singleNumber(nums_136))
+    nums_169 = [3,2,3]
+    print(s.majorityElement(nums_169))
+    nums_75 = [2,0,2,1,1,0]
+    print(s.sortColors(nums_75))
+    nums_31 = [1,2,3]
+    print(s.nextPermutations(nums_31))
+    nums_287 = [1,3,4,2,2]
+    print(s.findDuplicate(nums_287))
