@@ -122,3 +122,23 @@
 # 颜色分类
 # 下一个排列
 # 寻找重复数
+
+
+########################################################
+# 1114. 按序打印: foobar
+
+# 1115. 交替打印 FooBar: for_range
+
+# 1116. 打印零与奇偶数: zeroEvenOdd
+
+# 1117. H2O 生成: hydrogen2, oxygen1, barrier; 
+
+# 1188. 设计有限阻塞队列: push, pop, size, get
+
+# 1195. 交替打印字符串: fizzBuzz, %3, %5
+
+# 1226. 哲学家进餐: uid, pickleftfork, pickright, putleft, putrigght
+
+# 1242. 多线程网页爬虫: existCheck
+
+# 1279. 红绿灯路口: deadlock 

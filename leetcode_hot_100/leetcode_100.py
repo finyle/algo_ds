@@ -1,10 +1,22 @@
-from typing import List
+from typing import List, Optional
 from collections import defaultdict, deque, Counter
 import heapq
 from bisect import bisect_left
 import random
 from functools import cache, reduce
 from math import inf, comb
+
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x 
+        self.next = None 
+        
+class TreeNode:
+    def __init__(self, x):
+        self.val = x 
+        self.left = None 
+        self.right = None 
 
 class Solution:
     def twoSum_1(self, nums:List[int], target:int) -> List[int]:
@@ -1175,7 +1187,36 @@ class Solution:
                 ans = mid 
         return ans 
 
-    
+    # listnode 
+    def getIntersectionNode(self, headA:ListNode, headB:ListNode) -> Optional[ListNode]:
+        a, b = headA, headB
+        while a != b:
+            a = a.next if a else headB
+            b = b.next if b else headA
+        return a
+
+    def reverseList(self, head:Optional[ListNode]) -> Optional[ListNode]:
+        pre = None 
+        cur = head 
+        while cur:
+            nxt = cur.next 
+            cur.next = pre 
+            pre = cur 
+            cur = nxt 
+        return pre 
+
+    # treenode 
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        def dfs(cur):
+            if not cur: return 
+            res.append(cur.val)
+            dfs(cur.left)
+            dfs(cur.right)
+        res = []
+        dfs(root)
+        return res    
+
+
 if __name__ == "__main__":
     s = Solution()
     nums = [1,3,4,5]; target = 4
@@ -1346,3 +1387,36 @@ if __name__ == "__main__":
     print(s.nextPermutations(nums_31))
     nums_287 = [1,3,4,2,2]
     print(s.findDuplicate(nums_287))
+
+    # listnode 
+    numsA = [4,1,8,4,5]; numsB = [5,6,1,8,4,5]
+    def nums2listNode(nums):
+        head = ListNode(nums[0])
+        tmp = head 
+        for i in nums[1:]: 
+            tmp.next = ListNode(i)
+            tmp = tmp.next
+        return head
+
+    def printVal(ld):
+        while ld:
+            print(ld.val)
+            ld = ld.next 
+    a = nums2listNode(numsA)
+    b = nums2listNode(numsB)
+    print(s.getIntersectionNode(a, b))
+    print(s.reverseList(a))
+
+
+    # treenode 
+    numsTree_94 = [1, None, 2, 3]
+    def nums2treeNode(nums):
+        if not nums: return None 
+        root = TreeNode(nums[0])
+        left_children = nums[1::2]
+        right_children = nums[2::2]
+        root.left = nums2treeNode(left_children)
+        root.right = nums2treeNode(right_children)
+        return root 
+    print(nums2treeNode(numsTree_94))
+    print(s.inorderTraversal(nums2treeNode(numsTree_94)))
