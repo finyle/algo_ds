@@ -17,7 +17,7 @@ class Foo:
         self.secondJobDone.acquire()
     def first(self, printFirst: 'Callable[[], None]') -> None:
         printFirst()
-        self.firstJobDone.release();
+        self.firstJobDone.release()
     def second(self, printSecond: 'Callable[[], None]') -> None:
         with self.firstJobDone:
             printSecond()
