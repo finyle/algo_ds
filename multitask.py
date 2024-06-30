@@ -92,13 +92,15 @@ async def printT():
 # sync: 并发工具： Lock, Cond, Map;
 # go + chan: csp并发模型
 # third-party: etcd, grpc-go
+# csp concurrency pattern golang implement part of this
+# gpm goroutine-processor-machine schedule model 
 
 
 # cs149 并行计算样例
-# 分形计算
-# custom executorPool
-# cuda render
-# bfs(图算法处理)
+# simple task: 分形计算, sqrt, saxpy (ispc)
+# compute graph task: custom executorPool (std::concurrency)
+# cuad: saxpy, prefix_sum, circle_render (cuda.h)
+# page-rank, bfs (图算法处理) (omp.h) #pragma
 
 # 并发安全的容器
 # trie, skiplist, b+tree, map, queue

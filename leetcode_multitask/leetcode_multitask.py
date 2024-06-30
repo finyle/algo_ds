@@ -12,11 +12,6 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import time
 from typing import Callable
 from collections import deque
-import collections
-import queue
-import threading
-from typing import List
-from urllib.parse import urlsplit
 
 class Foo:
     def __init__(self):
@@ -89,19 +84,27 @@ class H2O:
     def __init__(self):
         self.semaH = Semaphore(2)
         self.semaO = Semaphore(1)
-        self.semaO.acquire()
+        self.lock = Lock()
 
     def hydrogen(self, releaseHydrogen: 'Callable[[], None]') -> None:
         self.semaH.acquire()
         releaseHydrogen()
         self.lock.acquire()
-        if self.semaH._value == 0:
+        if self.semaH._value == 0 and self.semaO._value == 0:
+            self.semaH.release()
+            self.semaH.release()
             self.semaO.release()
+        self.lock.release()
 
     def oxygen(self, releaseOxygen: 'Callable[[], None]') -> None:
         self.semaO.acquire()
         releaseOxygen()
-        self.semaH.release(2)
+        self.lock.acquire()
+        if self.semaH._value == 0 and self.semaO._value == 0:
+            self.semaH.release()
+            self.semaH.release()
+            self.semaO.release()
+        self.lock.release()
 
 class BoundedBlockingQueue():
 
@@ -207,8 +210,109 @@ class DiningPhilosophers:
                     forkslock.release()
                     time.sleep(0.001)
 
+    class Solution:
+    
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+# 1242. 给你一个初始地址 startUrl 和一个 HTML 解析器接口 HtmlParser，请你实现一个 多线程的网页爬虫，用于获取与 startUrl 有 相同主机名 的所有链接。
+#
+# 以 任意 顺序返回爬虫获取的路径。
+#
+# 爬虫应该遵循：
+#
+# 从 startUrl 开始
+# 调用 HtmlParser.getUrls(url) 从指定网页路径获得的所有路径。
+# 不要抓取相同的链接两次。
+# 仅浏览与 startUrl 相同主机名 的链接。
+#
+#
+# 如上图所示，主机名是 example.org 。简单起见，你可以假设所有链接都采用 http 协议，并且没有指定 端口号。举个例子，链接 http://leetcode.com/problems 和链接 http://leetcode.com/contest 属于同一个 主机名， 而 http://example.org/test 与 http://example.com/abc 并不属于同一个 主机名。
+#
+# HtmlParser 的接口定义如下：
+#
+# interface HtmlParser {
+# // Return a list of all urls from a webpage of given url.
+# // This is a blocking call, that means it will do HTTP request and return when this request is finished.
+# public List<String> getUrls(String url);
+# }
+# 注意一点，getUrls(String url) 模拟执行一个HTTP的请求。 你可以将它当做一个阻塞式的方法，直到请求结束。 getUrls(String url) 保证会在 15ms 内返回所有的路径。 单线程的方案会超过时间限制，你能用多线程方案做的更好吗？
+#
+# 对于问题所需的功能，下面提供了两个例子。为了方便自定义测试，你可以声明三个变量 urls，edges 和 startUrl。但要注意你只能在代码中访问 startUrl，并不能直接访问 urls 和 edges。
+#
+# 拓展问题：
+#
+# 假设我们要要抓取 10000 个节点和 10 亿个路径。并且在每个节点部署相同的的软件。软件可以发现所有的节点。我们必须尽可能减少机器之间的通讯，并确保每个节点负载均衡。你将如何设计这个网页爬虫？
+# 如果有一个节点发生故障不工作该怎么办？
+# 如何确认爬虫任务已经完成？
 
 
+# 4中实现方式：自定义Thread； 线程池； 线程安全容器；BFS自定义线程池
+
+# 输入：
+# urls = [
+#   "http://news.yahoo.com",
+#   "http://news.yahoo.com/news",
+#   "http://news.yahoo.com/news/topics/",
+#   "http://news.google.com",
+#   "http://news.yahoo.com/us"
+# ]
+# edges = [[2,0],[2,1],[3,2],[3,1],[0,4]]
+# startUrl = "http://news.yahoo.com/news/topics/"
+
+# 输出：[
+#   "http://news.yahoo.com",
+#   "http://news.yahoo.com/news",
+#   "http://news.yahoo.com/news/topics/",
+#   "http://news.yahoo.com/us"
+# ]
+#
+
+import collections
+import queue
+import threading
+from typing import List
+from urllib.parse import urlsplit
 
 class Solution:
     def __init__(self):
@@ -334,5 +438,4 @@ if __name__ == '__main__':
     t = TrafficLight()
     def turnGreen(): print("turnGreen")
     def crossCar(): print("crossCar")
-    cars = [1,3,5,2,4]; directions = [2,1,2,4,3]; arrivalTimes = [10,20,30,40,50]
-    Thread(target=t.carArrived, args = [turnGreen, crossCar]).start()
+    Thread(target=t.carArrived, args = [turnGreen, crossCar])
