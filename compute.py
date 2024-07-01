@@ -99,3 +99,27 @@ class Backtest:
 def main():
 
     print()
+
+
+
+###################################################################
+# instrucment-data access 
+# memory: memory pool manager 
+# disk: B+tree LSM serialize
+# expr: dsl(sql), expr-engine(ops + eval)
+# concurrency: redlock 
+
+# workflow:
+# mlflow: monitor
+# model save & load, model train, predict
+# strategy load 
+# signal backtest
+
+# backtest
+
+# base-data: olchv 
+# drived-data: ops with baseData, multiprocess compute and serialize(16hex)
+
+# ml: train -> predict -> valid
+
+#

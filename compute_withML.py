@@ -1,3 +1,9 @@
+
+# scikit learn: knn, kmean, svm, linear-model 
+
+
+# ##############################################
+
 # 两个框架的主要计算逻辑部分 均为cpp 实现
 
 # lightGBM
@@ -41,4 +47,17 @@
 # loss
 # objetive function
 
+
+
+#############################################################
+# generate model 
+# llama, tranformer
+
+# whisper, chatts 
+
+# pic style-transfer 
+
+# search prune
+# rl: gym, alpha-go, rl-card(doudizhu, chess, majiang, depu)
+## multi-agent rl: star-craftII, DOTA2
 
