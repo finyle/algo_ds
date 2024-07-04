@@ -24,7 +24,7 @@ class Solution:
         for i, num in enumerate(nums):
             if target - num in ht:
                 return [ht[target - num], i]
-            ht[nums[i]] = i 
+            ht[num] = i 
         return []
     
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
@@ -35,6 +35,10 @@ class Solution:
                 cnt[ord(ch) - ord('a')] += 1
             ht_l[tuple(cnt)].append(st)
         return list(ht_l.values())
+        # ht_l = defaultdict(list)
+        # for st in strs:
+        #     ht_l["".join(sorted(st))].append(st)
+        # return list(ht_l.values())
     
     def longestConsecutive_128(self, nums:List[int]) -> int:
         streak = 0
@@ -58,6 +62,7 @@ class Solution:
                 left += 1
             right += 1
         return nums 
+    
     def maxAres_11(self, nums:List[int]) -> int:
         l, r = 0, len(nums) - 1
         ans = 0 
@@ -79,7 +84,7 @@ class Solution:
             for second in range(fisrt + 1, n):
                 if second > fisrt + 1 and nums[second] == nums[second - 1]: continue
                 while second < third and nums[second] + nums[third] > target: third -= 1
-                if second == third: break;
+                if second == third: break
                 if nums[second] + nums[third] == target:
                     ans.append([nums[fisrt], nums[second], nums[third]])
         return ans 
@@ -99,6 +104,7 @@ class Solution:
                 r -= 1
         return ans 
     
+    # sliding window
     def lengthOfLongestSubstring(self, s: str) -> int:
         occ = set(); n = len(s)
         rk, ans = -1, 0
@@ -128,6 +134,7 @@ class Solution:
                 ans.append(i + 1)
         return ans 
 
+    # subArray 
     def subarraySum(self,nums:List[int], k:int):
         ans = s = 0
         cnt = defaultdict(int)
@@ -149,6 +156,7 @@ class Solution:
                 heapq.heappop(q)
             ans.append(-q[0][0])
         return ans 
+    
     def maxSlidingWindow_(self, nums:List[int], k:int):
         n = len(nums)
         q = deque()
@@ -197,6 +205,7 @@ class Solution:
                 left += 1
         return "" if ans_left < 0 else s[ans_left: ans_right + 1]
     
+    # array
     def maxSubArray(self, nums: List[int]) -> int:
         pre = 0
         maxAns = nums[0]
@@ -251,6 +260,7 @@ class Solution:
             if nums[i] > 0: return i + 1 
         return n + 1 
     
+    # matrix
     def setZero(self, matrix: List[List[int]]) -> None:
         m, n = len(matrix), len(matrix[0])
         flag_col0 = False 

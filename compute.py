@@ -107,7 +107,8 @@ def main():
 # memory: memory pool manager 
 # disk: B+tree LSM serialize
 # expr: dsl(sql), expr-engine(ops + eval)
-# concurrency: redlock 
+# concurrency: distribution lock 
+
 
 # workflow: (init_instance_byconfig <=> work-flow(task-flow bpmn))
 # mlflow: monitor
