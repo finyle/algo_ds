@@ -6,7 +6,6 @@ import random
 from functools import cache, reduce
 from math import inf, comb
 
-
 class ListNode:
     def __init__(self, x):
         self.val = x 
@@ -19,6 +18,7 @@ class TreeNode:
         self.right = None 
 
 class Solution:
+    # hash 
     def twoSum_1(self, nums:List[int], target:int) -> List[int]:
         ht = dict()
         for i, num in enumerate(nums):
@@ -26,7 +26,6 @@ class Solution:
                 return [ht[target - num], i]
             ht[num] = i 
         return []
-    
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         ht_l = defaultdict(list)
         for st in strs:
@@ -39,7 +38,6 @@ class Solution:
         # for st in strs:
         #     ht_l["".join(sorted(st))].append(st)
         # return list(ht_l.values())
-    
     def longestConsecutive_128(self, nums:List[int]) -> int:
         streak = 0
         num_set = set(nums)
@@ -53,6 +51,7 @@ class Solution:
                 streak = max(streak, current_streak)
         return streak
     
+    # two pointer 
     def moveZeros_283(self, nums:List[int]) -> None:
         n = len(nums)
         left = right = 0 
@@ -62,7 +61,6 @@ class Solution:
                 left += 1
             right += 1
         return nums 
-    
     def maxAres_11(self, nums:List[int]) -> int:
         l, r = 0, len(nums) - 1
         ans = 0 
@@ -72,7 +70,6 @@ class Solution:
             if (nums[l] <= nums[r]): l += 1
             else: r -= 1
         return ans 
-    
     def threeSum(self, nums:List[int]) -> List[List[int]]:
         n = len(nums)
         nums.sort()
@@ -88,7 +85,6 @@ class Solution:
                 if nums[second] + nums[third] == target:
                     ans.append([nums[fisrt], nums[second], nums[third]])
         return ans 
-    
     def trap(self, height:List[int]) -> int:
         ans = 0
         l, r = 0, len(height) - 1
@@ -116,7 +112,6 @@ class Solution:
                 rk += 1
             ans = max(ans, rk - i + 1)
         return ans 
-    
     def findAnagrams(self, s: str, p:str) -> List[int]:
         s_len, p_len = len(s), len(p)
         if s_len < p_len: return []
@@ -213,7 +208,6 @@ class Solution:
             pre = max(pre + i, i)
             maxAns = max(maxAns, pre)
         return maxAns
-    
     def merge(self, intervals:List[List[int]]) -> List[List[int]]:
         intervals.sort(key = lambda x: x[0])
         merged = []
@@ -223,7 +217,6 @@ class Solution:
             else:
                 merged[-1][1] = max(merged[-1][1], interval[1])
         return merged
-
     def rorate(self, nums:List[int], k:int)-> List[int]:
         def reverse(i:int, j:int) -> None:
             while i < j:
@@ -235,8 +228,7 @@ class Solution:
         reverse(0, n - 1)
         reverse(0, k - 1)
         reverse(k, n - 1)
-        return nums 
-
+        return nums
     def productExceptSelf(self, nums: List[int]) -> int:
         n = len(nums)
         ans = [0] * n 
@@ -248,7 +240,6 @@ class Solution:
             ans[i] = ans[i] * R 
             R *= nums[i]
         return ans 
-    
     def firstMissingPositive(self, nums: List[int]) -> int:
         n = len(nums)
         for i in range(n):
@@ -614,6 +605,7 @@ class Solution:
         dfs(0)
         return ans
 
+    # bisect 
     def searchInsert(self, nums: List[int], target: int) -> int: 
         left, right = 0, len(nums) - 1 
         while left <= right:
@@ -1058,7 +1050,7 @@ class Solution:
         dp = [1] * n 
         for i in range(1, m):
             for j in range(1, n):
-                dp[j] += d[j - 1]
+                dp[j] += dp[j - 1]
         return dp[n - 1]
     
     def uniquePaths(self, m:int, n:int) -> int:
@@ -1430,3 +1422,5 @@ if __name__ == "__main__":
         return root 
     print(nums2treeNode(numsTree_94))
     print(s.inorderTraversal(nums2treeNode(numsTree_94)))
+
+    # 

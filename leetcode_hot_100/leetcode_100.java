@@ -130,7 +130,6 @@ public class leetcode_100 {
         dfs(0);
         return ans;
     }
-
     private static void dfs(int i) {
         if (i == nums.length) {
             ans.add(new ArrayList<>(path));
@@ -249,6 +248,7 @@ public class leetcode_100 {
         }
         return pre;
     }
+
     // treenode
     class TreeNode {
         int val;
@@ -274,6 +274,7 @@ public class leetcode_100 {
         return arr2TreeNodeHelper(nums, 0, nums.length - 1);
     }
 
+
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<Integer>();
         inorder(root, res);
@@ -287,35 +288,53 @@ public class leetcode_100 {
         res.add(root.val);
         inorder(root.right, res);
     }
+
     public static void main(String[] args) {
+        // hash 
         int[] nums1 = {2,7,11,15};
-        System.out.println(Arrays.toString(twoSum(nums1, 9)));
+        System.out.println(Arrays.toString(twoSum(nums1, 9))); 
+        // two pointer
         int[] height11 = {1,8,6,2,5,4,8,3,7};
         System.out.println(maxArea(height11));
+        // sliding windows 
         String s3 = "abcabcbb";
         System.out.println(lengthOfLongestSubstring(s3));
+
+        // subarray 
         int[] nums560 = {1,1,1};
         System.out.println(subarraySum(nums560, 2));
+        // array 
         int[] nums53 = {-2,1,-3,4,-1,2,1,-5,4};
         System.out.println(maxSubArray(nums53));
+        // matrix 
         int[][] matrix73 = {{1,1,1},{1,0,1},{1,1,1}};
         Arrays.stream(setZeroes(matrix73)).map(item -> Arrays.toString(item)).forEach(System.out::println);
+         
+        // graph
         String[][] grid200 = {{"1","1","1","1","0"},{"1","1","0","1","0"},{"1","1","0","0","0"},{"0","0","0","0","0"}};
         System.out.println(numsIslands(grid200));
+
+        // backtrace
         leetcode_100 l = new leetcode_100();
         int[] nums46 = {1,2,3};
         System.out.println(l.permute(nums46));
+        // bisect 
         int[] nums35 = {1,3,5,6};
         System.out.println(l.searchInsert(nums35, 5));
+        
+        // stack 
         String s20 = "{{}}()";
         System.out.println(l.isValid(s20));
+        // priorityQueue 
         int[] nums215 = {3,2,1,5,6,4};
         System.out.println(l.findKthLargest(nums215, 2));
 
+        // listnode 
         int[] nums206 = {1,2,3,4,5};
         ListNode t = l.arr2ListNode(nums206);
         System.out.println(l.reverseList(t).val);
 
+        // treenode 
         int[] nums94 = {1,0, 2, 3};
         TreeNode t1 = l.arr2TreeNode(nums94);
         System.out.println(l.inorderTraversal(t1));
