@@ -22,6 +22,14 @@
 // 2.2. 最关键的属性有 4 个，分别是：用于存储所有的数据库连接的共享队列 sharedList、线程本地存储 threadList、等待数据库连接的线程数 waiters 以及分配数据库连接的工具 handoffQueue。其中，handoffQueue 用的是 Java SDK 提供的
 // 2.2. FastList 适用于逆序删除场景；而 ConcurrentBag 通过 ThreadLocal 做一次预分配，避免直接竞争共享资源，非常适合池化资源的分配。
 
+import com.sun.org.apache.bcel.internal.generic.PUSH;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.IntConsumer;
+
 class exp_thread {
     public static void main(String[] args) {
         System.out.println(Thread.currentThread().getId());
@@ -37,3 +45,239 @@ class exp_thread {
 
     }
 }
+
+// diningPhilosphers
+class DiningPhilosphers {
+    private ReentrantLock[] lockList = {
+            new ReentrantLock(),
+            new ReentrantLock(),
+            new ReentrantLock(),
+            new ReentrantLock(),
+            new ReentrantLock(),
+    };
+    private Semaphore eatLimit = new Semaphore(4);
+    public DiningPhilosphers() {}
+    public void wantsToEat(int philosopher,
+                           Runnable pickLeftFork,
+                           Runnable pickRightFork,
+                           Runnable eat,
+                           Runnable putLeftFork,
+                           Runnable putRightFork) throws InterruptedException {
+        eatLimit.acquire();
+        int rightFork = philosopher;
+        int leftFork = (philosopher + 1) % 5;
+
+        lockList[rightFork].lock();
+        lockList[leftFork].lock();
+
+        pickRightFork.run();
+        pickLeftFork.run();
+
+        eat.run();
+
+        putRightFork.run();
+        putLeftFork.run();
+
+        lockList[rightFork].unlock();
+        lockList[leftFork].unlock();
+
+        eatLimit.release();
+    }
+}
+
+// fizzbuzz
+class FizzBuzz {
+    private int n;
+    private CyclicBarrier cyclicBarrier = new CyclicBarrier(4);
+    public FizzBuzz(int n) {
+        this.n = n;
+    }
+    public void fizz(Runnable printFizz) throws BrokenBarrierException, InterruptedException {
+        for (int i = 0; i <= n; i++) {
+            if (i % 3 == 0 && i % 5 != 0) printFizz.run();
+            cyclicBarrier.await();
+        }
+    }
+    public void buzz(Runnable printBuzz) throws BrokenBarrierException, InterruptedException {
+        for (int i = 1; i <= n; i++) {
+            if (i % 3 != 0 && i % 5 == 0) printBuzz.run();
+            cyclicBarrier.await();
+        }
+    }
+    public void fizzbuzz(Runnable printFizzBuzz) throws BrokenBarrierException, InterruptedException {
+        for (int i = 1; i <= n; i++) {
+            if (i % 3 == 0 && i % 5 == 0) printFizzBuzz.run();
+            cyclicBarrier.await();
+        }
+    }
+    public void number(IntConsumer printNumber) throws BrokenBarrierException, InterruptedException {
+        for (int i = 1; i <= n; i++) {
+            if (i % 3 != 0 && i % 5 != 0) printNumber.accept(i);
+            cyclicBarrier.await();
+        }
+    }
+}
+
+// h2o
+class H20 {
+    Semaphore H = new Semaphore(2);
+    Semaphore O = new Semaphore(0);
+    public H20() {}
+    public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
+        H.acquire(1);
+        releaseHydrogen.run();
+        O.release(1);
+    }
+    public void oxygen(Runnable releaseOxygen) throws InterruptedException {
+        O.acquire(2);
+        releaseOxygen.run();
+        H.release(2);
+    }
+}
+
+// zeroEvenOdd
+class ZeroEvenOdd{
+    private int n;
+    private Semaphore zero = new Semaphore(1);
+    private Semaphore even = new Semaphore(0);
+    private Semaphore odd = new Semaphore(0);
+    public ZeroEvenOdd(int n) {this.n = n;}
+    public void zero(IntConsumer printNumber) throws InterruptedException {
+        for (int i = 1; i <= n; i++) {
+            zero.acquire();
+            printNumber.accept(0);
+            if (i % 2 == 0) even.release();
+            else odd.release();
+        }
+    }
+    public void even(IntConsumer printNumber) throws InterruptedException {
+        for (int i = 2; i <= n; i++) {
+            even.acquire();
+            printNumber.accept(i);
+            zero.release();
+        }
+    }
+    public void odd(IntConsumer printNumber) throws InterruptedException {
+        for (int i = 1; i <= n; i++) {
+            odd.acquire();
+            printNumber.accept(i);
+            zero.release();
+        }
+    }
+}
+
+// foobar
+class FooBar {
+    private int n;
+    private Semaphore foo = new Semaphore(1);
+    private Semaphore bar = new Semaphore(0);
+    public FooBar(int n) {this.n = n;}
+    public void foo(Runnable printFoo) throws InterruptedException {
+        for (int i = 0; i < n; i++) {
+            foo.acquire();
+            printFoo.run();
+            bar.release();
+        }
+    }
+    public void bar(Runnable printBar) throws InterruptedException {
+        for (int i = 0; i < n; i++) {
+            bar.acquire();
+            printBar.run();
+            foo.release();
+        }
+    }
+}
+
+// traffic light
+class trafficLight {
+    public void carArrived() {
+
+    }
+}
+
+// priority queue
+class BoundBlockingQueue {
+    private int n;
+    public int size() {
+        return n;
+    }
+    public void enqueue() {
+
+    }
+    public int dequeue() {
+        int elm = 0;
+        return elm;
+    }
+}
+
+// multiprocessing web scrapy
+class webScrapy {
+    public ArrayList<String> crwal() {
+        ArrayList<String> arr = new ArrayList<>();
+        return arr;
+    }
+    private void run() {
+
+    }
+}
+
+// hot water and tea
+// threadpool -> asyncio
+// executor -> future -> completionService
+class waterTea{
+    // T1Task 需要执行的任务：
+// 洗水壶、烧开水、泡茶
+    static class T1Task implements Callable<String> {
+        FutureTask<String> ft2;
+        // T1 任务需要 T2 任务的 FutureTask
+        T1Task(FutureTask<String> ft2){
+            this.ft2 = ft2;
+        }
+        @Override
+        public String call() throws Exception {
+            System.out.println("T1: 洗水壶...");
+            TimeUnit.SECONDS.sleep(1);
+
+            System.out.println("T1: 烧开水...");
+            TimeUnit.SECONDS.sleep(15);
+            // 获取 T2 线程的茶叶
+            String tf = ft2.get();
+            System.out.println("T1: 拿到茶叶:"+tf);
+
+            System.out.println("T1: 泡茶...");
+            return " 上茶:" + tf;
+        }
+    }
+    // T2Task 需要执行的任务:
+// 洗茶壶、洗茶杯、拿茶叶
+    static class T2Task implements Callable<String> {
+        @Override
+        public String call() throws Exception {
+            System.out.println("T2: 洗茶壶...");
+            TimeUnit.SECONDS.sleep(1);
+
+            System.out.println("T2: 洗茶杯...");
+            TimeUnit.SECONDS.sleep(2);
+
+            System.out.println("T2: 拿茶叶...");
+            TimeUnit.SECONDS.sleep(1);
+            return " 龙井 ";
+        }
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        // 创建任务 T2 的 FutureTask
+        FutureTask<String> ft2 = new FutureTask<>(new T2Task());
+        // 创建任务 T1 的 FutureTask
+        FutureTask<String> ft1 = new FutureTask<>(new T1Task(ft2));
+        // 线程 T1 执行任务 ft1
+        Thread T1 = new Thread(ft1);
+        T1.start();
+        // 线程 T2 执行任务 ft2
+        Thread T2 = new Thread(ft2);
+        T2.start();
+        // 等待线程 T1 执行结果
+        System.out.println(ft1.get());
+    }
+}
+

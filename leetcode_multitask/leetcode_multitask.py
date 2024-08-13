@@ -107,9 +107,7 @@ class H2O:
         self.lock.release()
 
 class BoundedBlockingQueue():
-
 # 3种方法： semaphore synchronized lock+condition
-
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.en = Semaphore(capacity)
@@ -210,51 +208,7 @@ class DiningPhilosophers:
                     forkslock.release()
                     time.sleep(0.001)
 
-    class Solution:
     
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
 # 1242. 给你一个初始地址 startUrl 和一个 HTML 解析器接口 HtmlParser，请你实现一个 多线程的网页爬虫，用于获取与 startUrl 有 相同主机名 的所有链接。
 #
 # 以 任意 顺序返回爬虫获取的路径。
