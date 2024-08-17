@@ -12,11 +12,15 @@ git push -u origin main
 
 # 
 # git pull 
-# git branch -b 
-# git remote add & remove 
+git config --global pull.rebase false
+git pull --allow-unrelated-histories
+
+#
+git remote add & remove 
 
 # 
 git add & git reset 
+git rm --cached -r .
 
 
 # 字体配置测试
@@ -50,3 +54,17 @@ sudo apt-get update
 sudo apt-get upgrade 
 
 ##########################################################
+
+mysql-username: debian-sys-maint
+mysql-password: VcNBWM801nHZA74v
+
+create user 'lin'@'localhost' identified by '';
+grant all privileges on *.* to 'lin'@'localhost';
+flush privileges;
+
+
+############################################################
+sudo dd if=/home/lin/Downloads/ubuntu-18.04-desktop-amd64.iso of=/dev/sdb bs=4M status=progress
+
+
+
