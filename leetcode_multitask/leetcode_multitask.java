@@ -47,7 +47,10 @@ class exp_thread {
 }
 
 // diningPhilosphers
+<<<<<<< HEAD
 // 哲学家进餐： 死锁样例
+=======
+>>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
 class DiningPhilosphers {
     private ReentrantLock[] lockList = {
             new ReentrantLock(),
@@ -168,7 +171,10 @@ class ZeroEvenOdd{
 }
 
 // foobar
+<<<<<<< HEAD
 // 交替打印
+=======
+>>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
 class FooBar {
     private int n;
     private Semaphore foo = new Semaphore(1);
@@ -191,7 +197,10 @@ class FooBar {
 }
 
 // traffic light
+<<<<<<< HEAD
 // 交通灯： 死锁样例
+=======
+>>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
 class trafficLight {
     public void carArrived() {
 
@@ -199,7 +208,10 @@ class trafficLight {
 }
 
 // priority queue
+<<<<<<< HEAD
 // 并发安全的优先队列
+=======
+>>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
 class BoundBlockingQueue {
     private int n;
     public int size() {
@@ -215,7 +227,10 @@ class BoundBlockingQueue {
 }
 
 // multiprocessing web scrapy
+<<<<<<< HEAD
 // 基于多线程的网络爬虫，线程池创建
+=======
+>>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
 class webScrapy {
     public ArrayList<String> crwal() {
         ArrayList<String> arr = new ArrayList<>();
@@ -226,7 +241,11 @@ class webScrapy {
     }
 }
 
+<<<<<<< HEAD
 // 烧水泡茶程序： 多线程样例： 线程池 -> 批处理，异步处理
+=======
+// hot water and tea
+>>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
 // threadpool -> asyncio
 // executor -> future -> completionService
 class waterTea{
