@@ -22,16 +22,21 @@
 下载qemu for windows; 重写xv6/makefile,实现基于wsl调用qumu for widnows (exp: bash: cmd.exe /C 'calc.exe')
 
 4. 基于 python 实现 test
+5. 依赖： inc + lib
 ```
 ### 2. handouts
 ```
+lib 1-6: 
 0. c prime
-1. bootstrap: 
-2. memory management(rom)
-3. user environment(process)
-4. kern： multitask (cpu)
-5. fs file system (disk)
-6. net net driver (net card)
+1. bootstrap                        boot
+2. memory management(rom)           kern
+3. user environment(process)        user
+4. multitask (cpu)                  kern
+5. fs file system (disk)            fs
+6. net net driver (net card)        net
+
+hw 1-12:
+boot, shell, system calls, page allocation, cpu alarm, locks, uthreads, barrier, big files, crash, mmap
 ```
 ---
 ## mit 6.824 分布式系统
@@ -56,6 +61,7 @@
 0. wsl + cpp14, makefile 编译，复制到 wsl 中执行 make， 实现基于mips的编译器，一次执行二进制文件：
 1. 实现基于cool 语言的编译器： 词法分析， 解析器， 语义分析， 代码生成4部分
 3. 基于 make 实现 test
+4. 实现编译器的前端(flex, bison, semant) + 后端(cgen); 可执行文件 并用脚本打包 shell 实现命令行参数解析，实现基于mips平台的编译器
 ```
 ### 2. handouts
 ```
@@ -70,20 +76,23 @@
 ### op_log
 ```
 0. wsl + cpp14
-1. apt install libpcap-dev && apt install libpthread-stubs0-dev
+1. apt install libpcap-dev && apt install libpthread-stubs0-dev, 依赖libpcap
 2. spone.util.buffer.cc 文件中缺少头文件： out_of_range是一个进程文件。 
    外文名 out_of_range 使用条件 使用时须包含头文件 #include<stdexcept>
 3. 基于 lib-sponge 库，网络帧定义 + socket(send&revc) + 网络接口 + ip路由， 实现自定义的 tcp 协议栈， 并基于该协议栈实现简易的网络应用
-4. 在apps 中 lab7 构建简单的网络应用
+4. 在apps 中 lab7 构建简单的网络应用，基于自定义协议栈的网络库
 
 5. 基于 cmake 实现 cpp test
 ```
 ### 2. handouts
 ```
-1. streamassemble
-2. tcp recv&send&conn
-3. net interface 
-4. ip router 
+1. byte_stream
+2. stream_reassembler
+3. wrapping_integers
+4. tcp recv&send&conn
+5. net interface 
+6. ip router
+7. apps 
 ### simple internet application
 ### tcp 协议： 流装配； tcp receiver, sender, connection
 ### network interface
@@ -110,14 +119,15 @@
 ### 1. op_log
 ```
 0. wsl + cpp17
-1. libs: 
+1. 依赖： libs: argparse, linenoise, libpg_query(命令行参数输入); googletest(测试框架); libfort(命令行表结构展示)； murmur3(hash); utf8proc(字符编码)
 1.  error: catching polymorphic type ‘class bustub::TransactionAbortException’ by value [-Werror=catch-value=]
    33 |   } catch (TransactionAbortException e) { 
     多态异常只能通过 引用 或 指针捕获 &e || *e
 2. 没有 handout， https://15445.courses.cs.cmu.edu/spring2023/assignments.html
 3. cpp prime + bustub(buffer pool mangager, B+ tree index, query execution, concurrency control)
 
-4. 基于 google-test 实现各组件的测试
+4. 基于 google-test 实现各组件的测试; build + cmake
+5. tools: tools/shell， 实现简易 commandline sql
 ```
 ### 2. handouts
 ```
