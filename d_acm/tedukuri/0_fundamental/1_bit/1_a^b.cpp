@@ -10,6 +10,7 @@
 #include<cstdio>
 #include<cstring>
 #include<algorithm>
+
 #define lowbit(x) (x&-x)
 using namespace std;
 int a, b, p;

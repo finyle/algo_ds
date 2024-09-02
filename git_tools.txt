@@ -16,6 +16,10 @@ git push -u origin main
 git config --global pull.rebase false
 git pull --allow-unrelated-histories
 
+# git pull
+git pull origin main 
+git push origin main -f 
+
 #
 git remote add & remove 
 
