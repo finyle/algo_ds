@@ -20,6 +20,8 @@
 ** note: in expansion of macro ‘V2P’
 ** undefined reference to `kinit1'
 下载qemu for windows; 重写xv6/makefile,实现基于wsl调用qumu for widnows (exp: bash: cmd.exe /C 'calc.exe')
+
+4. 基于 python 实现 test
 ```
 ### 2. handouts
 ```
@@ -37,6 +39,8 @@
 ### 1. op_log
 ```
 0. golang 无三方包依赖， 导入自定义包：go mod init MyProject; import "MyProject/?" 基于plugin的二进制调用 & go_test
+
+1. 基于 go-test 实现 test
 ```
 ### 2. handouts
 ```
@@ -51,14 +55,15 @@
 ```
 0. wsl + cpp14, makefile 编译，复制到 wsl 中执行 make， 实现基于mips的编译器，一次执行二进制文件：
 1. 实现基于cool 语言的编译器： 词法分析， 解析器， 语义分析， 代码生成4部分
+3. 基于 make 实现 test
 ```
 ### 2. handouts
 ```
 1. cool 语言编译工具coolc 仅支持 i686 架构； 编译为在mips机器可识别的字节码并执行, apt install spim
-2. apt install flex (assign2) lexer
-3. apt install  bison (assign3) parser
-4. semant (语义分析： 语法规则检测)
-5. cgen (生成机器码)
+2. apt install flex (assign2) lexer， 在cool.flex 中实现正则表达式，模式，行为
+3. apt install  bison (assign3) parser， 在 cool.y 中实现 bison 功能：关键字匹配
+4. semant (语义分析： 语法规则检测)， 在 semant.cc 实现抽象语法树生成
+5. cgen (生成机器码) 在 cgen.cc 实现mips平台代码生成 (.s 文件)
 ```
 
 ## cs144 计算机网络
@@ -68,7 +73,10 @@
 1. apt install libpcap-dev && apt install libpthread-stubs0-dev
 2. spone.util.buffer.cc 文件中缺少头文件： out_of_range是一个进程文件。 
    外文名 out_of_range 使用条件 使用时须包含头文件 #include<stdexcept>
-3. 基于 lib-sponge 库，实现自定义的 tcp 协议栈： 
+3. 基于 lib-sponge 库，网络帧定义 + socket(send&revc) + 网络接口 + ip路由， 实现自定义的 tcp 协议栈， 并基于该协议栈实现简易的网络应用
+4. 在apps 中 lab7 构建简单的网络应用
+
+5. 基于 cmake 实现 cpp test
 ```
 ### 2. handouts
 ```
@@ -102,11 +110,14 @@
 ### 1. op_log
 ```
 0. wsl + cpp17
+1. libs: 
 1.  error: catching polymorphic type ‘class bustub::TransactionAbortException’ by value [-Werror=catch-value=]
    33 |   } catch (TransactionAbortException e) { 
     多态异常只能通过 引用 或 指针捕获 &e || *e
 2. 没有 handout， https://15445.courses.cs.cmu.edu/spring2023/assignments.html
 3. cpp prime + bustub(buffer pool mangager, B+ tree index, query execution, concurrency control)
+
+4. 基于 google-test 实现各组件的测试
 ```
 ### 2. handouts
 ```
@@ -116,7 +127,3 @@
 3. method executor(scan, insert, update, del); aggregation&join; sort limit executor, topN optimization 基于index的查询， 多连接查询，剪枝优化 column pruning， system catalog, 索引更新
 4. lockManger(table lock, row lock), deadlcok detection(addEdge, hasCycle), ConcurretQuery(commit, abort); 查询下推预测， index pruning
 ```
-
-
-
-
