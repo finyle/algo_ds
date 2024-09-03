@@ -104,17 +104,17 @@ boot, shell, system calls, page allocation, cpu alarm, locks, uthreads, barrier,
 ## cs149 cpp 并行计算 parallel compute
 ### 1. op_log
 ```
-1. ispc
+1. ispc(高性能编译器，将并行模式的代码转换为cpu指令集以在cpu上高效执行并行i算任务), 下载路径： wget： /github.com/ispc/ispc/releases/download/v1.16.1/ispc-v1.16.1-linux.tar.gz
 2. 自定义 parallel executor
-3. cuda
-4. omp
+3. cuda(cuda 11 运行时 + nvcc cuda 编译器)
+4. omp(g++ 编译时加参数：-fopenmp)
 ```
 ### 2. handouts
 ```
-1. fractal generation; sqrt; saxpy: 分形图片生成， 开平方， 线性方程组计算
-2. build a task execution lib(synchronous bulk task launch | support execution of task graphs) 并行任务框架
-3. a simple cuda render： 基于cuda的图片渲染
-4. bfs & page-rank(graph processing)
+1. fractal generation; sqrt; saxpy: 分形图片生成(串行 + 多线程 + ispc)， 开平方， 线性方程组计算(y = ax + b)
+2. build a task execution lib(synchronous bulk task launch； support execution of task graphs) 并行任务框架， 相同任务实例的批量处理； 复杂任务图的处理框架(任务间存在依赖关系)
+3. a simple cuda render： 基于cuda的图片渲染： saxpy; scan(prefix-sum); render; 基于cuda的saxpy， 前缀和计算， 图片渲染
+4. bfs & page-rank(graph processing)： 两个图计算任务： pagerank + bfs(自顶向下 + 自底向上)
 ```
 --- 
 
