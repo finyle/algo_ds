@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Trie, Heap, Skiplist, BS, UF 
+# Trie, Heap, Skiplist, BS, UF
 # LRU LFU(ListNode) B+Tree 
 # Segment Tree 
 
@@ -745,7 +744,3 @@ if __name__ == '__main__':
     # print(deser.deserialize(ser.serialize()).deserialize( "1,2,3,null,null,4,5"))
 
 
-
-
-
->>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888

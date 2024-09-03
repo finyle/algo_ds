@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 数组的载入，导出 numpy pandas (多为数组， Cython 加速)
 # 科学计算 statisitic, scikit-learn, scipy 
 # ml: lightGBM, pytorch 基于cpp的dll库调用
@@ -248,4 +247,4 @@ def main():
 # drived-data: ops with baseData, multiprocess compute and serialize(16hex)
 
 # ml: train -> predict -> valid
->>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
+

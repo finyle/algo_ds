@@ -1,9 +1,7 @@
 target/*
-<<<<<<< HEAD
+
 .idea/
 
 venv/
 
-=======
-.idea/
->>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
+*.exe

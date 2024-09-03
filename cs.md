@@ -104,7 +104,10 @@ boot, shell, system calls, page allocation, cpu alarm, locks, uthreads, barrier,
 ## cs149 cpp 并行计算 parallel compute
 ### 1. op_log
 ```
-
+1. ispc
+2. 自定义 parallel executor
+3. cuda
+4. omp
 ```
 ### 2. handouts
 ```
