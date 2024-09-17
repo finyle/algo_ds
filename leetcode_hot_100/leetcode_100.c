@@ -3,58 +3,64 @@
 #include <limits.h>
 #include <string.h>
 
+typedef int bool;
+#define true 1
+#define false 0
+
 // 1.哈希 两数之和
 int* twoSum(int* nums, int numsSize, int target, int *returnSize) {
-    for (int i = 0; i < numsSize; ++i) {
-        for (int j = i + 1; j < numsSize; ++j) {
-            if (nums[i] + nums[j] == target) {
-                int* ret = malloc(sizeof(int) * 2);
-                ret[0] = i, ret[1] = j;
-                *returnSize = 2;
-                return ret;
+    for(int i=0;i<numsSize;i++){
+        for(int j=i+1;j<numsSize;j++){
+            if(nums[i]+nums[j]==target){
+//                int*re=malloc(sizeof(int)*2);
+                int re[2] = {0, 1};
+                re[0]=i;
+                re[1]=j;
+//                *returnSize=2;
+                printf("%d %d", *(re), *(re + 1));
+//                return re;
             }
         }
     }
-    *returnSize = 0;
     return NULL;
 }
 
-struct hashTable {
-    int key;
-    int val;
-    UT_hash_handle hh;
-};
-struct hashTable* hashtable;
-struct hashTable* find(int ikey) {
-    struct hashTable* tmp;
-    HASH_FIND_INT(hashtable, &ikey, tmp);
-    return tmp;
-};
-void insert(int ikey, int ival) {
-    struct hashTable* it = find(ikey);
-    if (it == NULL) {
-        struct hashTable* tmp = malloc(sizeof(struct hashTable));
-        tmp -> key = ikey, tmp -> val = ival;
-        HASH_ADD_INT(hashtable, key, tmp);
-    } else {
-        it -> val = ival;
-    }
-}
-int *twoSum_(int* nums, int numsSize, int target, int* returnSize) {
-    hashtable = NULL;
-    for (int i = 0; i < numsSize; ++i) {
-        struct hashTable* it = find(target - nums[i]);
-        if (it != NULL) {
-            int* ret = malloc(sizeof(int) * 2);
-            ret[0] = it -> val, ret[1] = i;
-            *returnSize = 2;
-            return ret;
-        }
-        insert(nums[i], i);
-    }
-    *returnSize = 0;
-    return NULL;
-}
+//struct hashTable {
+//    int key;
+//    int val;
+//    UT_hash_handle hh;
+//};
+//struct hashTable* hashtable;
+//struct hashTable* find(int ikey) {
+//    struct hashTable* tmp;
+//    HASH_FIND_INT(hashtable, &ikey, tmp);
+//    return tmp;
+//};
+//void insert(int ikey, int ival) {
+//    struct hashTable* it = find(ikey);
+//    if (it == NULL) {
+//        struct hashTable* tmp = malloc(sizeof(struct hashTable));
+//        tmp -> key = ikey, tmp -> val = ival;
+//        HASH_ADD_INT(hashtable, key, tmp);
+//    } else {
+//        it -int *twoSum_(int* nums, int numsSize, int target, int* returnSize) {
+////    hashtable = NULL;
+////    for (int i = 0; i < numsSize; ++i) {
+////        struct hashTable* it = find(target - nums[i]);
+////        if (it != NULL) {
+////            int* ret = malloc(sizeof(int) * 2);
+////            ret[0] = it -> val, ret[1] = i;
+////            *returnSize = 2;
+////            return ret;
+////        }
+////        insert(nums[i], i);
+////    }
+////    *returnSize = 0;
+////    return NULL;
+////}> val = ival;
+//    }
+//}
+//
 
 //双指针 283. 移动零
 void swap(int *a, int *b) {
@@ -274,7 +280,7 @@ char pairs(char a) {
 }
 bool isValid(char* s) {
     int n = strlen(s);
-    if (n % 2 == 1) {return false}
+    if (n % 2 == 1) {return false;}
     int stk[n + 1], top = 0;
     for (int i = 0; i < n; ++i) {
         char ch = pairs(s[i]);
@@ -354,7 +360,7 @@ int longestValidParentheses(char* s) {
 #define min(a,b) ((a) > (b) ? (b) : (a))
 int minDistance(char* word1, char* word2) {
     int len1 = strlen(word1), len2 = strlen(word2);
-    __int64_t dp[len1 + 1][len2 + 1];
+    int dp[len1 + 1][len2 + 1];
     for (int i = 0; i <= len2; ++i) dp[0][i] = i;
     for (int j = 1; j <= len1; ++j) dp[j][0] = j;
     for (int i = 1; i <= len1; ++i) {
@@ -375,9 +381,15 @@ int main() {
         printf("%d ", arr[i]);
     }
 
+//    printf("%d", *arr);
+    for (int i = 0; i < length; i++) {
+        printf("%d ", *(arr + i));
+    }
+
+
 
     int nums1[] = {2,7,11,15};
-    printf("%d %d", twoSum(nums1, 4, 9, (int*)2));
+    printf("%d %d", twoSum(nums1, 4, 9, NULL));
 
     return 0;
 }

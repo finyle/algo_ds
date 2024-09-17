@@ -5,6 +5,7 @@ from bisect import bisect_left
 import random
 from functools import cache, reduce
 from math import inf, comb
+import math
 
 class ListNode:
     def __init__(self, x):
@@ -15,7 +16,9 @@ class TreeNode:
     def __init__(self, x):
         self.val = x 
         self.left = None 
-        self.right = None 
+        self.right = None
+
+class Trie: {}
 
 class Solution:
     # hash 
@@ -1128,11 +1131,11 @@ class Solution:
         return dfs(m - 1, n - 1)
 
     def minDistance_(self, word1:str, word2:str) -> int:
-        f = list(range(len(t) + 1))
-        for x in s:
+        f = list(range(len(word1) + 1))
+        for x in word2:
             pre = f[0]
             f[0] += 1
-            for j, y in enumerate(t):
+            for j, y in enumerate(word1):
                 tmp = f[j + 1]
                 f[j + 1] = pre if x == y else min(f[j + 1], f[j], pre) + 1
                 pre = tmp

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # 并发编程：
 # 内置 multithreading, multiprocess
 # 内置 asyncio
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     # loop.close()
     # t1.start()
     # t3.start()
-=======
+
 # 并发编程：
 # 内置 multithreading, multiprocess
 # 内置 asyncio
@@ -286,5 +286,4 @@ if __name__ == '__main__':
     # loop.close()
     # t1.start()
     # t3.start()
->>>>>>> d2cf9d11bdcb024015f36837ba48c64d5f38c888
     # t2.start()
