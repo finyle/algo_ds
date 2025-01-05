@@ -1,0 +1,30 @@
+*101 cpp
+1-3(openCV, eign): 3D 三角形平面绘制，旋转； 三角形平面颜色填充(插值法); 3D 模型蒙皮
+4: 贝塞尔曲线
+5-7：ray trace (bvh 物体边界识别，加速渲染)
+8. (openGL, Freetype, RandR)绳子模拟：约束，阻尼 physic engine
+
+*************************************************************************
+*202 js,webGL,GLSL   webGL可视化调试(spector.js chrome插件) 实时光照： 拟合光路函数，实现raytrace计算过程的离线，在线拆分，加速渲染过程
+全局光照, 漫反射材质, 微表面漫反射, raytrace降噪
+0. 3D 模型+单一光源样例 shader + material
+0. Blinn-Phong 着色模型(GLSL)： vertexShader, fragmentShader | 
+1. 实时阴影pcf & pcss: shadowShader
+2. prt(percomputed radiance transfer) 预计算方法，该方法在离线渲染的 Path Tracing 工具链
+中预计算 lighting 以及 light transport 并将它们用球谐函数拟合后储存，这样就
+将时间开销转移到了离线中
+
+3. 方向光+漫反射材质 -> 屏幕空间下的全局光照： 直接光照；光线求交；间接光照
+
+4. 微表面BRDF-shader； kulla-Conty-shader
+5. ray trace 降噪：单帧图像降噪-> motion vector -> 累积帧间信息
+
+***************************************************************************
+physic engine
+*103 unity(c#) 刚体(碰撞检测+动力学轨迹rigid body dynamics solver)，布料(动力学仿真cloth simulationss),弹簧, 流体(wave motion)
+
+*105 (py) bvh  数据读入,正向逆向运动，动作交互, 平衡控制(rl)
+
+*201 (py) taichi 显式&隐式时间积分 | 沙子和水的动力学模拟
+
+*104 （cpp) piccolo(tiny game engine) build -> randering -> animation-physics -> toolchains
