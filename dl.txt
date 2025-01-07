@@ -1,0 +1,12 @@
+pytorch:
+auto-grad: 计算图实现自动微分
+
+
+************************************************
+应用： 
+数据预处理： 编解码bert(transformer)
+cv: resnet yolo
+
+rl: gym ac
+
+llm: generate

@@ -1,0 +1,19 @@
+liner(glm, ridge)
+
+
+svm
+```
+
+```
+kmeans
+
+cluster
+
+gbdt (lightgbm, xgboost)
+
+1. lightgbm
+```
+
+```
+imp: treeLearner | eval func
+优化: cpp omp 并行加速行列式计算

@@ -3,7 +3,6 @@
 4: 贝塞尔曲线
 5-7：ray trace (bvh 物体边界识别，加速渲染)
 8. (openGL, Freetype, RandR)绳子模拟：约束，阻尼 physic engine
-
 *************************************************************************
 *202 js,webGL,GLSL   webGL可视化调试(spector.js chrome插件) 实时光照： 拟合光路函数，实现raytrace计算过程的离线，在线拆分，加速渲染过程
 全局光照, 漫反射材质, 微表面漫反射, raytrace降噪

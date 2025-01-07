@@ -1,0 +1,37 @@
+mushroom base(c11):
+b blink Tree & net,rpc,raft -> 分布式索引
+
+1. 并发控制协议：descnedToLeaf, insert, split
+```
+# 下降
+# 插入
+# 分裂
+```
+
+2. blinkTree : 有界任务队列，线程池，页面池，锁管理器 （封装memory manager 减少 new delete)
+
+3. 映射队列： push put pop get
+
+4. lsm： 基于blinkTree的lsm
+
+5. 一致性协议： raft(领导选举， 日志复制)
+            paxos
+基于c11 自定义 net lib， rpc lib 实现 raft
+
+bloom filter
+radix (multi ART 并发实现)
+prefix tree 优化
+封装pthread create() 自定义并行任务队列 -> 
+
+bBlinkTree: put() ->{descendToLeaf, insert, split}
+            get() ->{descendToLeaf, page.serach&next}
+page: insert, search, next, split  -> string.memcpy&memmove
+
+
+*************************************************
+aili base: 
+
+blinkTree
+plamTree (b+Tree的无锁并发实现)
+massTree (b+ + trie)
+artTree (并发基数树)
