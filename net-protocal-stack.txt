@@ -1,0 +1,4 @@
+# mushroom raft协议实现，基于c的 rpc
+
+buffer channel connection endpoint eventbase poller server
+ socket

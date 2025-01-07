@@ -1,19 +1,94 @@
 liner(glm, ridge)
 
-
 svm
 ```
 
 ```
-kmeans
+
+kmeans (scikit-learn)
 
 cluster
 
+
+*****************************************************************************
 gbdt (lightgbm, xgboost)
-
-1. lightgbm
+0. 决策树集成算法(esemble)
 ```
+train/拟合函数:
+初始化根节点,分裂节点 
+for(;当前层数中的叶节点树<配置文件定义的叶节点树;)
+    遍历每个特征的最佳分裂节点
+    调用分裂函数
+    当前树深度=max
 
+src/treeLearner/serial_tree_learner 
+splitinner/节点分裂函数：
+更新最佳分裂节点
+if(number_feature)
+elif(categorical_feature)
+    split(tree, best_leaf, left_left,right_leaf)
+
+```
+1. lightgbm
+https://papers.nips.cc/paper/6907-lightgbm-a-highly-efficient-gradient-boosting-decision-tree
+```
+lightgbm 优化算法: 
+https://papers.nips.cc/paper_files/paper/2017/file/6449f44a102fde848669bdd9eb6b76fa-Paper.pdf
+# 最佳分裂点查找： histogram-based
+Input: I: training data, d: max depth
+Input: m: feature dimension
+nodeSet ← {0} . tree nodes in current level
+rowSet ← {{0, 1, 2, ...}} . data indices in tree nodes
+for i = 1 to d do
+    for node in nodeSet do
+        usedRows ← rowSet[node]
+        for k = 1 to m do
+            H ← new Histogram()
+            . Build histogram
+            for j in usedRows do
+                bin ← I.f[k][j].bin
+                H[bin].y ← H[bin].y + I.y[j]
+                H[bin].n ← H[bin].n + 1
+            Find the best split on histogram H.
+...
+Update rowSe
+
+# 高效的稀疏空间优化(goss)：gradient-based on one-side sampling
+Input: I: training data, d: iterations
+Input: a: sampling ratio of large gradient data
+Input: b: sampling ratio of small gradient data
+Input: loss: loss function, L: weak learner
+models ← {}, fact ← 1−a
+b
+topN ← a × len(I) , randN ← b × len(I)
+for i = 1 to d do
+    preds ← models.predict(I)
+    g ← loss(I, preds), w ← {1,1,...}
+    sorted ← GetSortedIndices(abs(g))
+    topSet ← sorted[1:topN]
+    randSet ← RandomPick(sorted[topN:len(I)],
+    randN)
+    usedSet ← topSet + randSet
+    w[randSet] × = fact . Assign weight f act to the
+    small gradient data.
+    newModel ← L(I[usedSet], − g[usedSet],
+    w[usedSet])
+    models.append(newModel)
+
+# 减少特征数(efb)：exclusive feature bundling
+Input: numData: number of data
+Input: F: One bundle of exclusive features
+binRanges ← {0}, totalBin ← 0
+for f in F do
+    totalBin += f.numBin
+    binRanges.append(totalBin)
+newBin ← new Bin(numData)
+for i = 1 to numData do
+    newBin[i] ← 0
+    for j = 1 to len(F) do
+        if F[j].bin[i] 6= 0 then
+            newBin[i] ← F[j].bin[i] + binRanges[j]
+Output: newBin, binRanges   
 ```
 imp: treeLearner | eval func
-优化: cpp omp 并行加速行列式计算
+优化: cpp omp 并行加速行列式计算 (#pragma omp parallel for schedule(static))

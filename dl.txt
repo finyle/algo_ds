@@ -1,5 +1,8 @@
 pytorch:
 auto-grad: 计算图实现自动微分
+```
+
+```
 
 
 ************************************************
@@ -7,6 +10,15 @@ auto-grad: 计算图实现自动微分
 数据预处理： 编解码bert(transformer)
 cv: resnet yolo
 
+resnet
+```
+bootleneck
+
+```
+
 rl: gym ac
 
 llm: generate
+```
+
+```

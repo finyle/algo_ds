@@ -4,24 +4,72 @@ b blink Tree & net,rpc,raft -> 分布式索引
 1. 并发控制协议：descnedToLeaf, insert, split
 ```
 # 下降
+锁住根节点(读锁)
+while(此节点不为叶子节点)
+    获取下降位置
+    解锁此节点(读锁)
+    if(需要右移)
+        获取同层右节点，加锁(读锁)
+    else
+        将此节点入栈
+        获取下一层节点，加锁(读锁)
+返回叶子节点(处于读锁状态)
+
 # 插入
+调用下降函数，获取叶子节点
+当前节点升级锁(读锁->写锁)
+while(True)
+    获取插入位置
+    if(需要右移)
+        获取同层右节点，加锁(写锁)
+    else
+        break 
+    解锁当前节点(写锁)
+    令当前节点等于右节点
+if 节点不满
+    插入key， 解锁(写锁)
+else
+    调用分裂函数
+
 # 分裂
+while(当前节点已满)
+    生成新节点(不加锁)
+    分裂当前节点
+    if(当前节点不为根节点)
+        获取栈内父节点，加锁(写锁)
+    else
+        生成新的根节点，使是为父节点
+    将新的节点插入父节点(可能需要右移)
+    当前节点解锁(写锁)
+    令当前节点等于父节点
+当前节点解锁(写锁)
 ```
 
 2. blinkTree : 有界任务队列，线程池，页面池，锁管理器 （封装memory manager 减少 new delete)
 
-3. 映射队列： push put pop get
+3. lsm： 基于blinkTree的lsm
+```
+# 合并策略：内存索引到达阈值后整个压缩成sstable；
+           通过等待树上的线程结束和阻挡后序线程保证压缩时只有一个线程可以接触到这颗树
+# 优化： 对应基本单位page和block，为降低new和delete,定制管理器：page_manager, block_manager
+        双buffer策略：同时存在两颗Blink内存树，mem_tree和imm_tree，mem_tree赋值给imm_tree然后转变成sstable,只需将imm_table重置又可以得到mem_tree,避免大量的new和delete
+```
 
-4. lsm： 基于blinkTree的lsm
+4. 映射队列： get push(用户); pop put（线程池) 
 
-5. 一致性协议： raft(领导选举， 日志复制)
-            paxos
+5. 一致性协议： raft(领导选举， 日志复制) paxos
 基于c11 自定义 net lib， rpc lib 实现 raft
+'''
+1. 各个状态的变化涉及的函数调用关系(松散实现)
+2. 对节点的具体操作(每个状态下每次操作的指示：无论对节点做什么改变，必须在改变节点信息前完成所要求的每个检查:任期检查,日志是否匹配)(严格实现)
+# 领导选举
+# 日志复制
+'''
 
 bloom filter
 radix (multi ART 并发实现)
 prefix tree 优化
-封装pthread create() 自定义并行任务队列 -> 
+封装pthread create() 自定义并行任务队列
 
 bBlinkTree: put() ->{descendToLeaf, insert, split}
             get() ->{descendToLeaf, page.serach&next}
@@ -33,5 +81,7 @@ aili base:
 
 blinkTree
 plamTree (b+Tree的无锁并发实现)
+
 massTree (b+ + trie)
+
 artTree (并发基数树)
