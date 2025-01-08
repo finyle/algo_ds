@@ -1,4 +1,32 @@
-# mushroom raft协议实现，基于c的 rpc
+# 应用层网络： 
+# mushroom(c11 只依赖标准库) raft协议实现，基于c的 rpc
 
-buffer channel connection endpoint eventbase poller server
- socket
+c11 自定义server-client
+server(&事件循环base, port)
+server.Start(): 创建监听任务： channel(socket, eventBase.getPoller)
+server.OnConnect(): 处理输入输出： con->GetInput(), con->Send(), 通过Connectine处理Buffer结构
+
+rpcServer.HandleAccept(): 
+
+# http://nil.csail.mit.edu/6.824/2022/papers/raft-extended.pdf
+raftServer.Start() 
+1. 领导选举start: sendAppendEntry & receiveAppendEntry & appendEntry
+         close: reschdeuleAfter -> sendRequestVote -> receiveRequestVoteReply ->becomeLeader&becomeFollower
+2. 日志复制： appendEntry， sendAppendEntry logs_.insert() 
+*************************************************************
+
+协议层网络：
+# cs144： 基于libsponge库，实现tcp协议，netInterface,ipRouting, 组合成简易局域网
+1-4 :stream assembler(整流：处理无序,重叠字节流为有序字节流:check_contigous,push_substring: 检测子串是否相邻重叠&外排序)， 
+    :tcp receiver(接收&重组segment为单个字节流, 计算ack number及返回给sender的窗口大小)
+    :tcp sender(接收字节流,拆分为segment并发送segment,跟踪在传输状态的segment,超时传出segment时复原segment状态)
+    :tcp connection(完整的tcp endpoint： connect, write, end_input_stream, unassembled_byte, state, tick)
+5. network interface(tcp/ip协议栈的最底层：负责与物理层的连接,将datagrams转换为ethernet frames)
+6. ipRouting(对于网络接口的附加封装,接收报文后存储并遍历,找到传输的最佳路径)
+7. assemble net infra 
+
+***************************************************************
+传输层网络： 
+bluetooth protocol: 
+
+

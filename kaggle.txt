@@ -1,0 +1,11 @@
+# tabular data: lgb
+
+
+
+# cv: pytorch Resnet
+
+# nlp
+
+# llm
+
+# rl:  agent-ai gym 

@@ -1,0 +1,19 @@
+# qemu 虚拟机平台，可模拟各类硬件平台
+
+# cs 6.828: xv6 是一个类Unix的教学操作系统，而 JOS 是在xv6的基础上改写，能在其上进行实验的 OS
+1. boot: bootstrap, bootloader, kernel 
+2. memory: 物理页内存，虚拟内存，内核地址空间 (0x3f) 2<<31; 2<<64
+3. user-level environments: 用户态与异常捕获, page fault & breakpoint exception & 系统调用
+4. multitask: 多进程支持与多任务协同, COW(copy on write), IPC
+5. file system， spawn， shell
+6. net driver
+
+# freeRTOS (real time os 实时操作系统)
+1. quick-start: https://www.freertos.org/Documentation/02-Kernel/03-Supported-devices/04-Demos/03-Emulation-and-simulation/QEMU/freertos-on-qemu-mps2-an385-model
+   依赖特定编译器： arm-none-eabi-gcc: https://developer.arm.com/downloads/-/gnu-rm && cd FreeRTOS/Demo/CORTEX_MPS2_QEMU_IAR_GCC/build/gcc directory && make 
+2. 配置文件中的宏定义启用,禁用特定功能
+3. 核心文件: list(初始化,插入,删除) queue(crud) task(调度,终端,tick)  
+
+# linux-x86-kernel (核心子系统：内存管理, 进程管理，进程间通信，文件系统，网络通信)
+1. 修改配置文件并执行make编译命令,编译镜像至: arch/arm/boot/
+2. 内核裁剪： make menuconfig | 图形界面配置裁剪
