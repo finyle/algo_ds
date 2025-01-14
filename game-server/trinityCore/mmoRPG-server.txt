@@ -1,0 +1,8 @@
+unity 帧同步： https://github.com/CraneInForest/LockStepSimpleFramework-Server
+
+unity帧同步游戏极简框架-服务器： 
+
+
+游戏服务器框架，网络层分别用SocketAPI、Boost Asio、Libuv三种方式实现， 框架内使用共享内存，无锁队列，对象池，内存池来提高服务器性能。还包含一个不断完善的Unity 3D客户端，客户端含大量完整资源，坐骑，宠物，伙伴，装备, 这些均己实现上阵和穿戴, 并可进入副本战斗，多人玩法也己实现, 持续开发中
+
+https://github.com/ylmbtm/GameProject3

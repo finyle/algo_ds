@@ -1,0 +1,33 @@
+gradle 包管理 项目构建工具： 
+
+gradle: https://mirrors.cloud.tencent.com/gradle/
+jdk: https://repo.huaweicloud.com/java/jdk
+     https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+
+ide 配置中设置 gradle路径  && 和其依赖的jdk 路径
+
+
+修改 gradle 配置 
+ 修改 gradle 依赖下载源: settings.gradle
+     # 33            grovy build.gradle
+    maven { url 'https://maven.aliyun.com/repository/central'}
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven { url 'https://maven.aliyun.com/repository/google'}
+    # 34 .kts 语法： kotlin build.gradle.kts
+    maven { url=uri("https://maven.aliyun.com/repository/central")}
+    maven { url=uri("https://maven.aliyun.com/repository/public")}
+    maven { url=uri("https://maven.aliyun.com/repository/google")}
+
+ 开启并行 和 缓存 加速构建过程: gradle.properties
+    # 并行编译
+    org.gradle.parallel=true
+
+    # 缓存
+    org.gradle.caching=true
+    org.gradle.configuration-cache=true
+    org.gradle.configuration-cache.problems=warn
+
+*******************************************************
+
+
+

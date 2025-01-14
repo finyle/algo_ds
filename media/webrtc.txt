@@ -1,0 +1,15 @@
+ webrtc demo
+ 基于 flutter 客户端
+      golang 服务端
+
+server: go run cmd\server\main.go 
+
+
+
+client: flutter pub get && flutter run
+
+
+******************************
+
+webrtc js 
+调用media： crema, microphone 实现p2p 音视频通话 

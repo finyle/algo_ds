@@ -1,0 +1,20 @@
+🌻 传统直播：HTML5播放器、M3U8直播/点播、RTMP直播、低延迟、推流/播流地址鉴权。🍏 实时直播：WebRTC
+
+# https://github.com/Tinywan/H5-dash-hls-rtmp-webrtc
+
+***********************************
+1. web网页中使用vlc插件播放相机/摄像头：实现及优化： play-rtmp-hls-stream
+
+2. 开源播放器： aliplayer video-dev-hls sewise-player chappr, mediaelement-player 
+
+3. videoJS 阿里云直播和点播跨域问题解决： videojs
+
+4. 音视频解决方案： ngnix-rtmp-ts-dash
+
+5. 视频插件 videoJS 用法； 视频直播常见问题及解决； ubuntu14.4 安装 nginx-rtmp
+
+6.  自定义音频播放器 & his-IOS 视频播放架构 & http live stream(hls) 概念
+
+7. rtmp 直播应用与延时分析 & 基于 rtmp 数据传输协议的实时流媒体 & rtsp协议转换rtmp直播协议
+
+8. 编解码器: AV1 HEVC VP9 VCC & FFmpeg 在IntelGPU上的硬件加速与优化 & 下一代低延时直播CDN: HLS RTMP 与 UDP+WebRTC

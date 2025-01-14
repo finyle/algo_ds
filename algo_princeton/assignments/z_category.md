@@ -3,6 +3,7 @@
 # recreation (rogue, 8 puzzle)
 
 # graphic and image processing (pair-point, triangle, circle)
+
 # text processing (markov model, trie) 
 
 # combinatorial optimization(tsp, )

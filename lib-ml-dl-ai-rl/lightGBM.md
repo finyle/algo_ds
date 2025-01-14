@@ -10,6 +10,16 @@
 # cmakelists.txt: 
 
 ****************************************************************
+总体架构： app(入库) -> treemodel(集成模型 gbdt randomforest dart) -> treelearner(决策树模型)
+
+cpu 并行计算 #pragma omp
+gpu(cuda) 支持
+python 接口支持(swig)
+分布式训练支持 dask
+
+参考论文： 
+objective fun: rankXENDCG 
+treelearner: 并行计算加速 saxpy
 
 # src： 
 # 主干流程： main -> application -> boosting, metric, objective -> treelearner

@@ -1,0 +1,1 @@
+Windows 下载： 在 powershell 中通过 包管理工具choco： choco install ffmpeg
