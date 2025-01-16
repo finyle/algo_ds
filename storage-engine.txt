@@ -1,4 +1,4 @@
-mushroom base(c11):
+mushroom base(cpp11):
 b blink Tree & net,rpc,raft -> 分布式索引
 
 1. 并发控制协议：descnedToLeaf, insert, split
@@ -77,11 +77,10 @@ page: insert, search, next, split  -> string.memcpy&memmove
 
 
 *************************************************
-aili base: 
+aili(c99): 
 
-blinkTree
-plamTree (b+Tree的无锁并发实现)
+blinkTree(effecient Locking on B+ tree 1987)
+palmTree (b+Tree Parallel Architect Lock-free Modify B+tree 2012)
 
-massTree (b+ + trie)
-
-artTree (并发基数树)
+massTree (Multicore K-V storage 2002)
+artTree (Adaptive Radix tree 内存数据库索引结构 2002) 
