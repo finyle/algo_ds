@@ -39,3 +39,32 @@ game engine: 完整游戏引擎： 实现 editor
 
 *104 （cpp) piccolo(tiny game engine) build -> randering -> animation-physics -> toolchains
 支持 clang(msvc)本地编译 为editor
+
+piccolo 游戏引擎编辑器 (基于imgui)
+visual studio(msvc) 执行 build.bat 脚本
+
+*   zeno 物理引擎编辑器 (基于qt5) 
+zeno 源码构建：
+
+# qt 依赖:
+https://download.qt.io/archive/qt/5.14/5.14.2/qt-opensource-windows-x86-5.14.2.exe
+
+
+# cryptopp 包依赖， 注释该部分
+#if(WIN32)
+#    find_package(cryptopp CONFIG REQUIRED)
+#    target_link_libraries(zenovis PRIVATE cryptopp::cryptopp)
+#else()
+#    target_link_libraries(zenovis PRIVATE cryptopp)
+#endif()
+
+
+# build: 
+## cmake -B build
+## cmake --build build
+1. The first step `cmake -B build` called *configure*, it generates the `build/` directory containing `Makefile`.
+2. The second step `cmake --build build` called *build*, equivalant to `make -C build` on Linux and call MSBuild on Windows.
+
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DQt5_DIR="C:/Qt/Qt5.14.2/5.14.2/msvc2017_64/lib/cmake/Qt5"
+cmake --build build --config Release
+"C:\Qt\Qt5.14.2\msvc2017_64\bin\windeployqt.exe" "build\bin\zenoedit.exe"
