@@ -1,0 +1,86 @@
+下载 qt 
+# qt 依赖:
+https://download.qt.io/archive/qt/5.14/5.14.2/qt-opensource-windows-x86-5.14.2.exe
+设置环境变量： qmake: C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin
+
+下载visual studio
+
+qt 自带 qtcreator 不好用，可在clion初始化qt project 注意生成的cmakelists文件配置
+
+************************************************************************************************
+
+面试题：
+1. Qt 中常用的五大模块 core gui widgets network sql
+
+2. 信号和机制 如何使用信号实现对象间的通信
+
+3. qt中不建议作ui控件 并修改其属性值
+
+4. qtpainter ？ 绘图引擎 绘制图形 渲染文本
+
+5. 定时器： qtimer qbasictimer
+
+6. QThread QConcurrent 多线程处理？
+
+7. 格式化字符串utils: qstring qtextstream qlocale qvariant 
+
+8. qt 数据库操作 qtsql
+
+9. qml 和 qt widgets ui 框架
+
+10. 如何在qt中绘制图形 qtpainter
+
+11. qt中如何处理网络请求 qt network
+
+12. qt 多语言支持 qTranslator
+
+13. 信号槽同步 ？异步？
+
+14. qt 程序事件驱动 ？异步
+
+15. 死锁？
+
+16. 线程同步？
+
+17. 23种设计模式
+
+18. qt 模型/视图架构 model view delegate selection
+
+19. 多线程： 继承qthread 使用qt信号和槽机制 qtConcurrent框架
+
+20. qt 跨平台： qt框架 qt模块类库 qt编译器构建 平台抽象层
+
+21. 调试器 qdebut,qwwaning, qt creato, 内存泄漏检测 日志qloggingCategory
+
+22. mvc; 标准控件,布局管理器; qt信号槽; RAII(构造函数获取资源 析构函数释放资源)
+
+************************************************************************************************
+1. 控件功能 属性 qwidget qlabel qpushButton qlayout qlineEdit qTextEdit
+
+2. 熟练信号槽机制 signal/slot 父子 兄弟空间间的信号互传 跨多层控件信号互传
+
+3. 布局layout 垂直 水平 栅格 窗口自适应; 原型图拆解：从底到顶控件组合 垂直水平布局，父子兄弟控件摆放
+
+4. 事件机制 eventFilter, 重写
+
+5. 设计师布局和代码布局复合使用
+
+6. 复杂控件自定义实现
+
+7. mv模式 model view
+
+8. qstyleSheet 样式表
+
+9. 线程 容器 qt二次封装
+
+10. 网络模块 多媒体模块
+
+11. QGraphicView 图元绘画框架(动态实现表格 统计图 仪表 复杂动画)
+
+************************************************************************************************
+
+qt pro 文件
+qt pri 文件模块化开发
+qtCreator 定制化
+qt 打包
+qt 跨平台

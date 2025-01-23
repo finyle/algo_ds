@@ -1,0 +1,155 @@
+🌻 传统直播：HTML5播放器、M3U8直播/点播、RTMP直播、低延迟、推流/播流地址鉴权。🍏 实时直播：WebRTC
+
+# https://github.com/Tinywan/H5-dash-hls-rtmp-webrtc
+
+***********************************
+1. web网页中使用vlc插件播放相机/摄像头：实现及优化： play-rtmp-hls-stream
+2. 开源播放器： aliplayer video-dev-hls sewise-player chappr, mediaelement-player 
+3. videoJS 阿里云直播和点播跨域问题解决： videojs
+4. 音视频解决方案： ngnix-rtmp-ts-dash
+
+5. 视频插件 videoJS 用法； 视频直播常见问题及解决； ubuntu14.4 安装 nginx-rtmp
+6.  自定义音频播放器 & his-IOS 视频播放架构 & http live stream(hls) 概念
+7. rtmp 直播应用与延时分析 & 基于 rtmp 数据传输协议的实时流媒体 & rtsp协议转换rtmp直播协议
+8. 编解码器: AV1 HEVC VP9 VCC & FFmpeg 在IntelGPU上的硬件加速与优化 & 下一代低延时直播CDN: HLS RTMP 与 UDP+WebRTC
+
+***********************************
+# https://www.cnblogs.com/tinywan/tag/%E6%B5%81%E5%AA%92%E4%BD%93/default.html?page=1
+
+1. nginx+nginx-rtmp-module+FFmpeg 搭建流媒体服务器
+```
+nginx配合ffmpeg做流媒体服务器的原理是: nginx通过rtmp模块提供rtmp服务, ffmpeg推送一个rtmp流到nginx, 然后客户端通过访问nginx来收看实时视频流. HLS也是差不多的原理,只是最终客户端是通过HTTP协议来访问的,但是ffmpeg推送流仍然是rtmp的.
+下载 nginx 并从源码编译 用于模块支持
+nginx默认需要的是pcre和zlib和openssl,分别去这两个官方网站下载最新的版本,我下载的是pcre-8.32.tar.gz，zlib-1.2.8.tar.gz，openssl-1.0.1i.tar.gz
+
+https://blog.csdn.net/a772304419/article/details/143700483
+git clone https://github.com/nginx/nginx.git
+
+编译并安装：
+cd nginx-1.5.9
+./configure --prefix=/usr/local/nginx --with-pcre=/home/user/pcre/pcre-8.32 --with-zlib=/home/user/zlib/zlib-1.2.8 --with-openssl=/home/user/openssl/openssl-1.0.1i --add-module=/home/user/nginx-rtmp-module 
+make && make install 
+
+nginx 从1.19 版本开始支持动态加载模块 
+
+启动：
+/usr/local/nginx ls 
+cd sbin && ./nginx 
+```
+
+2. rtmp 和 hls 分发服务器 nginx.conf 配置文件
+3. 安全防盗链
+ ffmpeg 推流到nginx RTMP模块(rtmp hls)
+ ffpeg转码记录，解决有流 但没有码率和fps
+ 命令 案例 测试
+ rtsp协议 rtmp协议 http协议的区别
+ ```
+ 理论上RTSP RTMPHTTP都可以做直播和点播，但一般做直播用RTSP RTMP，做点播用HTTP。做视频会议的时候原来用SIP协议，现在基本上被RTMP协议取代了。
+
+RTSP、 RTMP、HTTP的共同点、区别
+
+共同点：
+
+1：RTSP RTMP HTTP都是在应用应用层。
+
+2： 理论上RTSP RTMPHTTP都可以做直播和点播，但一般做直播用RTSP RTMP，做点播用HTTP。做视频会议的时候原来用SIP协议，现在基本上被RTMP协议取代了。
+
+区别：
+
+1：HTTP: 即超文本传送协议(ftp即文件传输协议)。
+
+RTSP:（Real Time Streaming Protocol），实时流传输协议。
+
+HTTP全称Routing Table Maintenance Protocol（路由选择表维护协议）。
+
+ 
+
+2：HTTP将所有的数据作为文件做处理。http协议不是流媒体协议。
+
+RTMP和RTSP协议是流媒体协议。
+
+ 
+
+3：RTMP协议是Adobe的私有协议,未完全公开，RTSP协议和HTTP协议是共有协议，并有专门机构做维护。
+
+ 
+
+4：RTMP协议一般传输的是flv，f4v格式流，RTSP协议一般传输的是ts,mp4格式的流。HTTP没有特定的流。
+
+ 
+
+5：RTSP传输一般需要2-3个通道，命令和数据通道分离，HTTP和RTMP一般在TCP一个通道上传输命令和数据。
+
+ 
+
+RTSP、RTCP、RTP区别
+
+1：RTSP实时流协议
+
+作为一个应用层协议，RTSP提供了一个可供扩展的框架，它的意义在于使得实时流媒体数据的受控和点播变得可能。总的说来，RTSP是一个流媒体表示 协议，主要用来控制具有实时特性的数据发送，但它本身并不传输数据，而是必须依赖于下层传输协议所提供的某些服务。RTSP可以对流媒体提供诸如播放、暂 停、快进等操作，它负责定义具体的控制消息、操作方法、状态码等，此外还描述了与RTP间的交互操作（RFC2326）。
+
+ 
+
+2：RTCP控制协议
+
+RTCP控制协议需要与RTP数据协议一起配合使用，当应用程序启动一个RTP会话时将同时占用两个端口，分别供RTP和RTCP使用。RTP本身并 不能为按序传输数据包提供可靠的保证，也不提供流量控制和拥塞控制，这些都由RTCP来负责完成。通常RTCP会采用与RTP相同的分发机制，向会话中的 所有成员周期性地发送控制信息，应用程序通过接收这些数据，从中获取会话参与者的相关资料，以及网络状况、分组丢失概率等反馈信息，从而能够对服务质量进 行控制或者对网络状况进行诊断。
+
+RTCP协议的功能是通过不同的RTCP数据报来实现的，主要有如下几种类型：
+
+SR：发送端报告，所谓发送端是指发出RTP数据报的应用程序或者终端，发送端同时也可以是接收端。(SERVER定时间发送给CLIENT)。
+
+RR：接收端报告，所谓接收端是指仅接收但不发送RTP数据报的应用程序或者终端。(SERVER接收CLIENT端发送过来的响应)。
+
+SDES：源描述，主要功能是作为会话成员有关标识信息的载体，如用户名、邮件地址、电话号码等，此外还具有向会话成员传达会话控制信息的功能。
+
+BYE：通知离开，主要功能是指示某一个或者几个源不再有效，即通知会话中的其他成员自己将退出会话。
+
+APP：由应用程序自己定义，解决了RTCP的扩展性问题，并且为协议的实现者提供了很大的灵活性。
+
+ 
+
+3：RTP数据协议
+
+RTP数据协议负责对流媒体数据进行封包并实现媒体流的实时传输，每一个RTP数据报都由头部（Header）和负载（Payload）两个部分组成，其中头部前12个字节的含义是固定的，而负载则可以是音频或者视频数据。
+
+RTP用到的地方就是 PLAY ，服务器往客户端传输数据用UDP协议，RTP是在传输数据的前面加了个12字节的头(描述信息)。
+
+RTP载荷封装设计本文的网络传输是基于IP协议，所以最大传输单元(MTU)最大为1500字节，在使用IP／UDP／RTP的协议层次结构的时候，这 其中包括至少20字节的IP头，8字节的UDP头，以及12字节的RTP头。这样，头信息至少要占用40个字节，那么RTP载荷的最大尺寸为1460字 节。以H264 为例，如果一帧数据大于1460，则需要分片打包，然后到接收端再拆包，组合成一帧数据，进行解码播放。
+
+作
+ ```
+ 直播未来 rtmp http
+ 视频播放器 JW player
+ nginx 模块： rtmp 模块的ffpem的配置问题
+ nginx 模块： rtmp模块的在线统计功能 stat 数据流的获取
+
+5. 码流 码率 采样率 比特率 帧速率 分辨率 高清视频
+6. ffmpeg 官方文档先进音频编码 aac
+
+11. 开源流媒体服务器 easyDarwin 
+
+
+14. ffmpeg 推送视频流，nginx rtmp模块转发，vlc播放器播放，实现整个rtmp直播
+```
+1. 查看本机电脑的设备
+ffmpeg -list_devices true -f dshow -i dummy
+
+2. ffmpeg 编码推送到rtmp服务器
+ffmpeg -f dshow -i video="HP TrueVision HD Camera":audio="Microphone Array (Realtek(R) Audio)" -vcodec libx264 -acodec copy -preset:v ultrafast -tune:v zerolatency -f flv "rtmp://aitech.com/live/tinywan123"
+ffmpeg -f dshow -i video="HP TrueVision HD Camera":audio="Microphone Array (Realtek(R) Audio)" -vcodec libx264 -acodec copy -preset:v ultrafast -tune:v zerolatency -f flv "rtmp://localhost/myapp/mystream"
+ffmpeg -f dshow -i video="HP TrueVision HD Camera":audio="Microphone Array (Realtek(R) Audio)" -vcodec mjpeg -acodec copy -preset:v ultrafast -tune:v zerolatency -f flv "rtmp://localhost/myapp/mystream"
+
+
+3. 使用vlc查看直播
+rtmp:// -VLC media player 
+
+4. 使用rtsp推流地址到EasyDarwin开源流媒体服务器 使用vlc播放rtsp视频流
+ffmpeg -f dshow -i video="HP TrueVision HD Camera":audio="Microphone Array (Realtek(R) Audio)" -vcodec libx264 -aacenc libvo_aacenc -preset:v ultrafast -tune:v zerolatency -f rtsp "rtsp://aitech.com/live/tinywan123"
+5. 使用vlc播放rtsp视频流 
+rtsp:// -VLC media player 
+
+6. 设置帧率为25fps,这个要设置在推流第hi前面 摄像头后面
+ffmpeg -f dshow -i video="HP TrueVision HD Camera":audio="Microphone Array (Realtek(R) Audio)" -vcodec libx264 -acodec libvo_aacenc -b 1080k -r 25 -preset:v ultrafast -tune:v zerolatency -f rtsp "rtsp://aitech.com/live/tinywan123"
+ffmpeg -f dshow -i video="HP TrueVision HD Camera":audio="Microphone Array (Realtek(R) Audio)" -vcodec libx264 -acodec libvo_aacenc -b 1080k -r 25 -preset:v ultrafast -tune:v zerolatency -f rtsp "rtsp://aitech.com/live/tinywan123"
+
+```

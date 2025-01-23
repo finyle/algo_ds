@@ -185,3 +185,119 @@ ffprobe -i input.mp4 -show_frames
 
 如果只要显示视频流，使用-select_streams v。其中v代表video，a代表audio，s代表subtitle。
 ffprobe -i input.mp4 -show_frames -select_streams v
+
+
+##############################################################
+查找摄像头名称：
+ffmpeg -list_devices true -f dshow -i dummy
+HP TrueVision HD Camera
+实时预览摄像头
+ffplay -f dshow -i video="HP TrueVision HD Camera"
+通过摄像头捕获视频并将其保存为文件
+ffmpeg -f dshow -i video="HP TrueVision HD Camera" output.mp4
+
+#################################################################
+https://www.cnblogs.com/tinywan/p/6120995.html
+
+ffmpeg 拉取 rtsp 摄像头视频流
+ffmpeg -rtsp_transport tcp -i rtsp://admin:12345@192.168.18.252:554/h264/ch1/main/av_stream -c:a copy -c:v libx264 -f flv rtmp://stream.amaitech.com/live/4001480473625vhost=tinywan.amai8.com
+
+ffmpeg 命令集
+1. 视频格式转换 
+ffmpeg -i input.avi output.mp4
+ffmpeg -i input.mp4 output.ts 
+2. 获取视频信息
+ffmpeg -i video.avi 
+3.1 提取音频
+ffmpeg -i test.mp4 -acodec copy -vn output.aac 
+ffmpeg -i test.mp4 -acodec aac -vn output.aac 
+3.2 提取音频和视频
+ffmpeg -i F:\Tinywan\Video\test.mkv -vcodec copy -an F:\Tinywan\Video\output_file_video.mp4
+ffmpeg -i F:\Tinywan\Video\test.mkv -acodec copy -vn F:\Tinywan\Video\output_file_audio.mp3
+4. 视频剪切 
+ffmpeg -ss 00:00:00 -t 00:05:00 -y -i "F:\Tinywan\Video\test.mkv" -vcodec copy -acodec copy F:\Tinywan\Video\cutVideo.mp4
+5. 视频截图
+ffmpeg -i F:\Tinywan\Video\test.mkv -y -f mjpeg -ss 3 -t 1  F:\Tinywan\Video\test1.jpg
+ffmpeg -i F:\Tinywan\Video\test.mkv -y -f image2 -ss 3 -vframes 1 F:\Tinywan\Video\test2.jpg 
+6. 获取视频时常 
+ffmpeg -i F:\Tinywan\Video\test.mkv 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | sed s/,// 
+7. 将rtmp流 以文件的形式保存到本地
+ffmpeg -i "rtmp://tinywan.amai8.com/live123/4008899 live=1" -acodec copy -vcodec copy -f flv -y F:\Tinywan\Video\RTMPtest2test.flv
+8. 原样视频mp4格式转换成avi格式输出
+ffmpeg -i cutVideo.mp4  -vcodec copy -acodec copy cutVideoCopy.avi
+9. 设定输出视频码率为64kbit/s 
+ffmpeg -i cutVideo.mp4 -b:v 64k -bufsize 64k -y output64.mp4 
+10. 切换帧率24fps
+ffmpeg -i input.avi -r 24 output.avi
+11. 导出图片 
+ffmpeg -i cutVideo.mp4 -r 1 -s 1680*1050 -f image2 foo-%03d.jpeg
+12. 从图片生成视频
+ffmpeg -f image2 -framerate 12 -i foo-%03d.jpeg -s 640*320 fooimage2.avi
+
+13. 码率控制
+码率控制对于在线视频比较重要。因为在线视频需要考虑其能提供的带宽。
+那么，什么是码率？很简单： 
+bitrate = file size / duration 
+比如一个文件20.8M，时长1分钟，那么，码率就是： 
+biterate = 20.8M bit/60s = 20.8*1024*1024*8 bit/60s= 2831Kbps 
+一般音频的码率只有固定几种，比如是128Kbps， 
+那么，video的就是 
+video biterate = 2831Kbps -128Kbps = 2703Kbps。
+说完背景了。好了，来说ffmpeg如何控制码率。 
+ffmpg控制码率有3种选择，-minrate -b:v -maxrate 
+-b:v主要是控制平均码率。 
+比如一个视频源的码率太高了，有10Mbps，文件太大，想把文件弄小一点，但是又不破坏分辨率。 
+ffmpeg -i input.mp4 -b:v 2000k output.mp4 
+上面把码率从原码率转成2Mbps码率，这样其实也间接让文件变小了。目测接近一半。 
+不过，ffmpeg官方wiki比较建议，设置b:v时，同时加上 -bufsize 
+-bufsize 用于设置码率控制缓冲器的大小，设置的好处是，让整体的码率更趋近于希望的值，减少波动。（简单来说，比如1 2的平均值是1.5， 1.49 1.51 也是1.5, 当然是第二种比较好） 
+ffmpeg -i input.mp4 -b:v 2000k -bufsize 2000k output.mp4
+-minrate -maxrate就简单了，在线视频有时候，希望码率波动，不要超过一个阈值，可以设置maxrate。 
+ffmpeg -i input.mp4 -b:v 2000k -bufsize 2000k -maxrate 2500k output.mp4
+
+14. 视频编码格式转换
+比如一个视频的编码是MPEG4，想用H264编码，咋办？ 
+ffmpeg -i input.mp4 -vcodec h264 output.mp4 
+相反也一样 
+ffmpeg -i input.mp4 -vcodec mpeg4 output.mp4
+当然了，如果ffmpeg当时编译时，添加了外部的x265或者X264，那也可以用外部的编码器来编码。（不知道什么是X265，可以Google一下，简单的说，就是她不包含在ffmpeg的源码里，是独立的一个开源代码，用于编码HEVC，ffmpeg编码时可以调用它。当然了，ffmpeg自己也有编码器） 
+ffmpeg -i input.mp4 -c:v libx265 output.mp4 
+ffmpeg -i input.mp4 -c:v libx264 output.mp4
+
+15. 只提取视频es数据
+这个可能做开发的人会用到，顺便提一下吧。 
+ffmpeg –i input.mp4 –vcodec copy –an –f m4v output.h264
+
+16. 过滤器使用
+16.1 将输入的1920x1080缩小到960x540输出:
+ffmpeg -i input.mp4 -vf scale=960:540 output.mp4 
+16.2 为视频添加logo
+比如，我有这么一个图片 
+iqiyi logo 
+想要贴到一个视频上，那可以用如下命令： 
+./ffmpeg -i input.mp4 -i iQIYI_logo.png -filter_complex overlay output.mp4 
+结果如下所示： 
+add logo left 
+要贴到其他地方？看下面： 
+右上角： 
+./ffmpeg -i input.mp4 -i logo.png -filter_complex overlay=W-w output.mp4 
+左下角： 
+./ffmpeg -i input.mp4 -i logo.png -filter_complex overlay=0:H-h output.mp4 
+右下角： 
+./ffmpeg -i input.mp4 -i logo.png -filter_complex overlay=W-w:H-h output.mp4
+16.3 去掉视频logo
+有时候，下载了某个网站的视频，但是有logo很烦，咋办？有办法，用ffmpeg的delogo过滤器。 
+语法：-vf delogo=x:y:w:h[:t[:show]] 
+x:y 离左上角的坐标 
+w:h logo的宽和高 
+t: 矩形边缘的厚度默认值4 
+show：若设置为1有一个绿色的矩形，默认值0。
+ffmpeg -i input.mp4 -vf delogo=0:0:220:90:100:1 output.mp4
+
+
+##############
+小众用法：
+1. h264编码profile & level 控制
+2. 编码效率和视频质量的取舍 preset crf 
+3. h265(hevc)编码tile & level 控制 
+4. 为视频重新编码以适合在ipod/iphone上播放

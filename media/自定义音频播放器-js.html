@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/audio.css">
+    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="js/remauto.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="js/audio.js"></script>
+	<!--注意：微信接口文件必须放在audio.js文件之前-->
+</head>
+<body>
+<div class="audio-liveroom">
+    <div class="audio-list">
+        <div class="audio-list-item">
+            <div class="audio-send-time text-center">08-21 20:22</div>
+            <div class="audio-send-main clearfix">
+                <div class="audio-send-avatar pull-left">
+                    <img src="img/avatar.png" alt="" class="radius-half">
+                </div>
+                <div class="audio-send-content pull-left">
+                    <div class="audio-send-name">营养师</div>
+                    <div class="audio-send-box">
+                        <div class="audio-box">
+                            <audio>
+                                <source src="audio/BlueDucks_FourFlossFiveSix.mp3">
+                                <source src="audio/BlueDucks_FourFlossFiveSix.ogg">
+                                <source src="audio/BlueDucks_FourFlossFiveSix.wav">
+                            </audio>
+                            <div class="controls-bar clearfix">
+                                <!--开关-->
+                                <div class="audio-switch">
+                                    <div class="switch-btn switch-pause audio-spirit"></div>
+                                </div>
+                                <!--进度条-->
+                                <div class="progress-box">
+                                    <div class="progress" id="progress">
+                                        <span class="bar" id="bar"></span>
+                                        <div class="control" id="control"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="no-play-flag radius-half"></span>
+                        <span class="audio-duration">60"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="audio-list-item">
+            <div class="audio-send-time text-center">08-21 20:22</div>
+            <div class="audio-send-main clearfix">
+                <div class="audio-send-avatar pull-left">
+                    <img src="img/avatar.png" alt="" class="radius-half">
+                </div>
+                <div class="audio-send-content pull-left">
+                    <div class="audio-send-name">营养师</div>
+                    <div class="audio-send-box">
+                        <div class="audio-box">
+                            <audio>
+                                <source src="audio/BlueDucks_FourFlossFiveSix.mp3">
+                                <source src="audio/BlueDucks_FourFlossFiveSix.ogg">
+                                <source src="audio/BlueDucks_FourFlossFiveSix.wav">
+                            </audio>
+                            <div class="controls-bar clearfix">
+                                <!--开关-->
+                                <div class="audio-switch">
+                                    <div class="switch-btn switch-pause audio-spirit"></div>
+                                </div>
+                                <!--进度条-->
+                                <div class="progress-box">
+                                    <div class="progress">
+                                        <span class="bar"></span>
+                                        <div class="control"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="no-play-flag radius-half"></span>
+                        <span class="audio-duration">60"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<!-- audio.css  -->
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.audio-spirit {
+    display: inline-block;
+    width: 4.46rem;
+    height: 3.01rem;
+    background: url("img/audio-spirit.png") no-repeat;
+    -webkit-background-size: 4.46rem 3.01rem;
+    background-size: 4.46rem 3.01rem;
+}
+
+.pull-left {
+    float: left;
+}
+
+.radius-half {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.audio-list {
+    padding: 0 0.2rem;
+}
+
+.audio-send-time {
+    width: 100%;
+    font-size: 0.2rem;
+    color: #989898;
+    margin-bottom: 0.3rem;
+}
+
+.audio-send-main {
+    width: 100%;
+    margin-bottom: 0.3rem;
+}
+
+.audio-send-avatar {
+    width: 0.82rem;
+    height: 0.82rem;
+}
+
+.audio-send-content {
+    padding-left: 0.2rem;
+}
+
+.audio-send-name {
+    color: #323232;
+    font-size: 0.24rem;
+    margin-bottom: 0.1rem;
+}
+
+.audio-send-box {
+    position: relative;
+}
+
+.no-play-flag {
+    position: absolute;
+    top: -0.1rem;
+    right: 0.24rem;
+    width: 0.18rem;
+    height: 0.18rem;
+    background-color: #f94747;
+}
+
+.audio-duration {
+    position: absolute;
+    right: 0.16rem;
+    top: 50%;
+    margin-top: -0.12rem;
+    font-size: 0.24rem;
+    color: #646464;
+}
+
+.controls-bar {
+    -webkit-border-radius: 0.42rem;
+    -moz-border-radius: 0.42rem;
+    border-radius: 0.42rem;
+    background-color: #6fc;
+    padding: 0.16rem 0.8rem 0.16rem 0.16rem;
+}
+
+.progress-box {
+    float: left;
+}
+
+.progress {
+    position: relative;
+    /*width: 3rem;*/
+    width: 100%;
+    height: 0.06rem;
+    background-color: #8ed1bb;
+    -webkit-border-radius: 0.05rem;
+    -moz-border-radius: 0.05rem;
+    border-radius: 0.05rem;
+    margin-top: 0.22rem;
+    cursor: pointer;
+    display: none;
+}
+
+.bar {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #fff;
+    -webkit-border-radius: 0.05rem;
+    -moz-border-radius: 0.05rem;
+    border-radius: 0.05rem;
+}
+
+.control {
+    position: absolute;
+    left: -0.04rem;
+    top: -0.04rem;
+    width: 0.14rem;
+    height: 0.14rem;
+    background: #fff;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    z-index: 99;
+}
+
+.control:before {
+    content: '';
+    position: absolute;
+    right: -0.04rem;
+    top: -0.04rem;
+    width: 0.22rem;
+    height: 0.22rem;
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.audio-switch {
+    float: left;
+}
+
+.switch-btn {
+    position: relative;
+    float: left;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.2rem;
+    cursor: pointer;
+}
+
+.switch-pause {
+    background-position: -2.96rem 0;
+}
+
+.switch-play {
+    background-position: -3.6rem -0.5rem;
+}
+
+<!-- audio.js -->
+$(function () {
+    //点击按钮，播放音频
+ $(".audio-list").on("click", ".audio-switch", function () {
+     var myAudio = $(this).parents(".audio-box").find("audio")[0];
+     if (myAudio.paused) {
+         myAudio.play();
+         $("audio").each(function (index, ele) {
+             var audioBox = $(this).parents(".audio-box");
+             if (ele === myAudio) {
+                 myAudio.play();
+                 audioBox.find(".switch-btn").removeClass('switch-pause').addClass('switch-play');
+                 audioBox.find(".progress").show()
+             } else if ($(ele).attr("id") != "tryoutAudio") {
+                 ele.pause();
+                 audioBox.find(".switch-btn").removeClass('switch-play').addClass('switch-pause');
+                 audioBox.find(".progress").hide();
+                 ele.currentTime = "0";
+             }
+         })
+     } else {
+         myAudio.pause();
+         $(this).find(".switch-btn").removeClass('switch-play').addClass('switch-pause');
+     }
+ })
+
+ function playNextAudio() {
+   //音频进度条更新
+     $("audio").on("timeupdate", function () {
+         var currentAudio = this;
+         var scales = this.currentTime / this.duration;
+         var bar = $(this).parents(".audio-box").find(".bar")[0];
+         var progress = $(this).parents(".audio-box").find(".progress")[0];
+         var control = $(this).parents(".audio-box").find(".control")[0];
+         bar.style.width = progress.offsetWidth * scales / 100 + "rem";
+         control.style.left = progress.offsetWidth * scales / 100 - 0.04 + "rem";
+         control.ontouchstart = function (e) {
+             var startPosition = (e || window.event).touches[0].clientX;
+             var l = this.offsetLeft;
+             var max = progress.offsetWidth - this.offsetWidth;
+             control.ontouchmove = function (e) {
+                 var endPosition = (e || window.event).touches[0].clientX;
+                 var distance = Math.min(max, Math.max(-2, l + (endPosition - startPosition)));
+                 control.style.left = distance + 'px';
+                 bar.style.width = distance + 'px';
+                 var scales = control.offsetLeft / progress.offsetWidth;
+                 currentAudio.currentTime = currentAudio.duration * scales;
+
+                 //防止选择内容--当拖动鼠标过快时候，弹起鼠标，bar也会移动，修复bug
+                 window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
+             };
+             control.ontouchend = new Function('this.onmousemove=null');   //弹起鼠标不做任何操作
+         }
+     })
+
+
+     // 获取所有audio音频标签
+     var audioArray = [];
+     $("audio").each(function (index, ele) {
+         $(ele).data("id", "audio" + index);
+         audioArray.push(ele);
+     })
+   
+   //监听“ended”事件，让下一个音频标签自动播放
+     $("audio").on("ended", function () {
+         $(this).parents(".audio-send-box").find(".switch-btn").removeClass('switch-play').addClass('switch-pause');
+         $(this).parents(".audio-send-box").find(".progress").hide();
+         $(this).parents(".audio-send-box").find(".no-play-flag").hide();
+         var audioId = $(this).data("id");
+         // 获取audioId中的数字，即索引
+         var currentIndex = audioId.replace(/[^0-9]/ig, "");
+         var lastIndex = Number(currentIndex) + 1;
+       
+       //让页面自动滚动到当前播放音频显示的位置
+         var scrollHeight = $(audioArray[lastIndex]).parents(".audio-list-item").position().top;
+             $('.audio-liveroom').scrollTop(scrollHeight);
+       
+               //解决ios不能自动触发play()方法的问题
+             if (window.WeixinJSBridge) {
+                 WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+                     audioArray[lastIndex].play();
+                 }, false);
+             } else {
+                 document.addEventListener("WeixinJSBridgeReady", function () {
+                     WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+                         audioArray[lastIndex].play();
+                     });
+                 }, false);
+             }
+             audioArray[lastIndex].play();
+             $(audioArray[lastIndex]).parents(".audio-send-box").find(".switch-btn").removeClass('switch-pause').addClass('switch-play');
+             $(audioArray[lastIndex]).parents(".audio-send-box").find(".progress").show();
+     })
+ }
+
+ playNextAudio();
+
+ //        计算音频播放的长度
+ function getWidth(timeLength, maxTimeLength) {
+     var maxWidth = 3;
+     var rate = parseFloat(timeLength / maxTimeLength);
+     var progressWidth = rate * maxWidth;
+     if (progressWidth > maxWidth) {
+         return maxWidth;
+     } else {
+         return progressWidth;
+     }
+ }
+
+ var progressBox = $("audio").parent(".audio-box").find(".progress-box");
+ progressBox.css({width: getWidth(60, 60) + 'rem'});
+
+})
+
+<!-- ios上audio不能自动播放，也不能连续播放的问题
+为了避免浪费流量，ios手机端浏览器默认规定媒体文件不允许自动加载播放。 必须在由用户直接操作的事件(如click事件)中才能执行加载播放的代码语句。 -->
+if (window.WeixinJSBridge) {
+    WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+        audioArray[lastIndex].play();
+     }, false);
+} else {
+     document.addEventListener("WeixinJSBridgeReady", function () {
+         WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+            audioArray[lastIndex].play();
+         });
+     }, false);
+}
+audioArray[lastIndex].play();
+
+<!-- js自适应rem的，对于移动端开发一般使用rem为单位 -->
+(function () {
+    function initFont() {
+    	document.getElementById('viewport').setAttribute('content','width=device-width,initial-scale=1,user-scalable=no,width=750,maximum-scale='+window.screen.width/750);
+        document.documentElement.style.fontSize = (document.documentElement.clientWidth > 750 ? 750 : document.documentElement.clientWidth) / 7.5 + "px";
+    }
+    initFont();
+   	window.onresize=function(){initFont()};
+})(window);

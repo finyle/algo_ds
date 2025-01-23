@@ -1,6 +1,6 @@
 # debug 环境：
 # windows10 + clion + minGW 
-#### 1. 下载三方依赖 eigen(矩阵库) fast_double_parser(参数解析) fmt(字符串格式) compute()
+#### 1. 下载三方依赖 eigen(矩阵库) fast_double_parser(参数解析) fmt(字符串格式) compute
 # external_libs: compute, eigen, fast_double_parser, fmt 
 #### 2. 执行src/main 配置入参： 配置文件路径； 及配置文件中的数据文件的相对路径修改
 # run/debug config: program arguments: config="examples\\regression\\train.conf"
