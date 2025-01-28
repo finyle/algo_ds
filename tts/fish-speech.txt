@@ -1,0 +1,22 @@
+#### source build: https://speech.fish.audio/start_agent/
+
+GPU memory: At least 8GB(under quanization), 16GB or more is recommanded.
+Disk usage: 10GB
+
+
+#### 下载与预训练模型： 置于checkpoints文件夹中
+huggingface-cli download fishaudio/fish-agent-v0.1-3b --local-dir checkpoints/fish-agent-v0.1-3b
+
+#### 启动 agent demo
+python -m tools.api_server --llama-checkpoint-path checkpoints/fish-agent-v0.1-3b/ --mode agent --compile
+
+#### 创建 web ui 
+python -m tools.e2e_webui
+
+# #################################################
+
+
+
+massTTS: https://github.com/anyvoiceai/MassTTS/tree/main
+
+bert-VITS2: https://github.com/fishaudio/Bert-VITS2

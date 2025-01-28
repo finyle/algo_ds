@@ -1,8 +1,8 @@
-# 框架应用 Python api:
+### 框架应用 Python api:
 
-## 网络模型定义： CustomModel(nn.Module): __init__(); forward();
-## 损失函数： loss = nn.functional.cross_entropy(); 激活函数，损失函数均在
-## 参数优化器： optim = optim.SGD & Adam
+#### 网络模型定义： CustomModel(nn.Module): __init__(); forward();
+#### 损失函数： loss = nn.functional.cross_entropy(); 激活函数，损失函数均在
+#### 参数优化器： optim = optim.SGD & Adam
 
 ```
 # 网络模型定义
@@ -57,10 +57,10 @@ for batch, data in enumerate(train_loader):
 
 # ##########################################################
 
-# 对应源码实现：
-# Python接口相关： pytorch.torch.csrc.api.nn & optim
+#### 对应源码实现：
+#### Python接口相关： pytorch.torch.csrc.api.nn & optim
 
-# 自动微分(单机版): pytorch.torch.csrc.autograd: 由 nn.Module._call 在模型实例化时自动执行前向传播
+#### 自动微分(单机版): pytorch.torch.csrc.autograd: 由 nn.Module._call 在模型实例化时自动执行前向传播
 ```
 grad:
 
@@ -69,16 +69,16 @@ run_backward:
 ```
 
 
-# 自动微分(分布式版): pytorch.torch.csrc.distributed.autograd
-## context, engine, function, rpc
+#### 自动微分(分布式版): pytorch.torch.csrc.distributed.autograd
+#### context, engine, function, rpc
 
-# onnx: open neural netmodel exchange(神经网络模型开放格式), 使得模型在支持该模式的环境中得以复用
+#### onnx: open neural netmodel exchange(神经网络模型开放格式), 使得模型在支持该模式的环境中得以复用
 
 # ##############################################################
-# pytorch 算子（Operators）通常指的是进行各种数学运算和张量操作的函数
-## 基本算子 张量定义
-## 高级算子 矩阵乘法, 卷积
-## 自定义算子 使用torch.autograd.Function来创建自定义算子：
+#### pytorch 算子（Operators）通常指的是进行各种数学运算和张量操作的函数
+#### 基本算子 张量定义
+#### 高级算子 矩阵乘法, 卷积
+#### 自定义算子 使用torch.autograd.Function来创建自定义算子：
 ```
 class MyReLU(torch.autograd.Function):
     @staticmethod
@@ -97,10 +97,64 @@ relu = MyReLU.apply
 output = relu(torch.tensor([-1.0, 2.0, -3.0]))
 print(output)  # 输出: tensor([0., 2., 0.])
 ```
-### wavelet transform
+#### wavelet transform
 
 对于性能要求极高的操作，你可能需要使用C++来扩展PyTorch，通过编写自定义的CUDA内核来实现：
 编写C++/CUDA代码：创建一个C++文件，实现你的算子逻辑。
 编译扩展：使用setuptools或torch.utils.cpp_extension来编译你的C++/CUDA代码。
 在PyTorch中调用：导入编译后的模块，并像使用PyTorch的内置算子一样使用你的自定义算子。
 这是一个高层次的概述，具体的实现细节会根据你的具体需求而有所不同。PyTorch的灵活性和强大的算子支持使其成为深度学习研究和开发的强大工具。
+
+# ##############################################################
+windows build：
+
+* Windows:
+
+#### Prerequisites
+
+```bash
+$ source <CONDA_INSTALL_DIR>\Scripts\activate.bat
+$ conda create -y -n <CONDA_NAME>
+$ conda activate <CONDA_NAME>
+$ call "c:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
+```
+
+#### Get the PyTorch Source
+```bash
+git clone --recursive https://github.com/pytorch/pytorch  # 自行下载三方依赖, 配置github代理(watt toolkit)
+cd pytorch
+# if you are updating an existing checkout
+git submodule sync
+git submodule update --init --recursive
+```
+
+#### Install Dependencies
+
+**Common**
+
+```bash
+conda install cmake ninja
+# Run this command from the PyTorch directory after cloning the source code using the “Get the PyTorch Source“ section below
+pip install -r requirements.txt -i  https://mirrors.aliyun.com/pypi/simple/ 
+```
+
+**On Windows**
+
+```bash
+pip install mkl-static mkl-include -i  https://mirrors.aliyun.com/pypi/simple/ 
+# Add these packages if torch.distributed is needed.
+# Distributed package support on Windows is a prototype feature and is subject to changes.
+conda install -c conda-forge libuv=1.39
+```
+
+**On Windows**
+
+If you want to build legacy python code, please refer to [Building on legacy code and CUDA](https://github.com/pytorch/pytorch/blob/main/CONTRIBUTING.md#building-on-legacy-code-and-cuda)
+
+**CPU-only builds**
+
+In this mode PyTorch computations will run on your CPU, not your GPU
+
+```cmd
+python setup.py develop
+```
